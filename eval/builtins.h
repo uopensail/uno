@@ -20,44 +20,35 @@
 #pragma once
 
 #include <assert.h>
-#include <math.h>
-#include <time.h>
-
-#ifdef __linux__
-#include <bits/stl_algo.h>
-#endif
-
 #include <chrono>
 #include <iostream>
+#include <math.h>
 #include <stdexcept>
 #include <string>
+#include <time.h>
 #include <vector>
 
 #include "go.hpp"
 
-template <typename T>
-T *_add(T *a, T *b) {
+template <typename T> T *_add(T *a, T *b) {
   T *ret = (T *)malloc(sizeof(T));
   *ret = *a + *b;
   return ret;
 }
 
-template <typename T>
-T *_sub(T *a, T *b) {
+template <typename T> T *_sub(T *a, T *b) {
   T *ret = (T *)malloc(sizeof(T));
   *ret = *a - *b;
   return ret;
 }
 
-template <typename T>
-T *_mul(T *a, T *b) {
+template <typename T> T *_mul(T *a, T *b) {
   T *ret = (T *)malloc(sizeof(T));
   *ret = (*a) * (*b);
   return ret;
 }
 
-template <typename T>
-T *_div(T *a, T *b) {
+template <typename T> T *_div(T *a, T *b) {
   assert(*b != 0);
   T *ret = (T *)malloc(sizeof(T));
   *ret = (*a) / (*b);
@@ -89,8 +80,7 @@ float *_tanh(float *x);
 float *_atanh(float *x);
 float *_sigmoid(float *x);
 
-template <typename T>
-T *min(Slice<T> *src) {
+template <typename T> T *min(Slice<T> *src) {
   assert(src->len > 0);
   T *ret = (T *)malloc(sizeof(T));
   *ret = (*src)[0];
@@ -102,8 +92,7 @@ T *min(Slice<T> *src) {
   return ret;
 }
 
-template <typename T>
-T *max(Slice<T> *src) {
+template <typename T> T *max(Slice<T> *src) {
   assert(src->len > 0);
   T *ret = (T *)malloc(sizeof(T));
   *ret = (*src)[0];
@@ -134,4 +123,4 @@ GoStringPtr lower(GoStringPtr s);
 GoStringPtr substr(GoStringPtr s, int64_t *start, int64_t *len);
 GoStringPtr concat(GoStringPtr a, GoStringPtr b);
 
-#endif  // UNO_BUILTINS_H
+#endif // UNO_BUILTINS_H

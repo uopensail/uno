@@ -66,7 +66,7 @@ struct Expression {
   Columns columns;
   VarSlice varslice;
   NodePtrSlice nodes;
-  Expression(const std::string &str) {
+  Expression(const std::string_view &str) {
     json doc = json::parse(str);
     const std::vector<json> &array = doc["nodes"].get<std::vector<json>>();
     size_t size = array.size();
@@ -85,7 +85,6 @@ struct Expression {
     for (size_t i = 0; i < size; i++) {
       NodeType ntype = array[i]["ntype"].get<NodeType>();
       int32_t id = array[i]["id"].get<int32_t>();
-      std::cout << id << " " << ntype << std::endl;
       if (ntype == NodeType::kVarNode) {
         VarNode *n = new VarNode(array[i]);
         nodes[id] = n;
@@ -151,4 +150,4 @@ struct Expression {
   }
 };
 
-#endif  // UNO_EXPR_HPP
+#endif // UNO_EXPR_HPP

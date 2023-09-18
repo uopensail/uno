@@ -20,10 +20,10 @@
 #pragma once
 
 #include <assert.h>
-
 #include <cstring>
 #include <iostream>
 #include <string>
+#include <string_view>
 #include <vector>
 
 enum DataType : int32_t {
@@ -120,8 +120,7 @@ typedef struct GoString {
 
 } GoString, *GoStringPtr;
 
-template <typename T>
-struct GoSlice {
+template <typename T> struct GoSlice {
   T *ptr;
   size_t len;
   size_t cap;
@@ -174,7 +173,7 @@ struct GoSlice {
   }
 
   T &operator[](size_t i) {
-    assert(0 <= i && i < len);
+    assert(0 <= i && i < cap);
     return ptr[i];
   }
 
@@ -189,8 +188,7 @@ struct GoSlice {
 
   size_t size() { return len; }
 };
-template <typename T>
-using Slice = struct GoSlice<T>;
+template <typename T> using Slice = struct GoSlice<T>;
 
 using Int32Slice = Slice<int32_t>;
 using Int64Slice = Slice<int64_t>;
@@ -199,4 +197,4 @@ using Float32Slice = Slice<float>;
 using TypeSlice = Slice<DataType>;
 using VarSlice = Slice<void *>;
 
-#endif  // UNO_GO_HPP
+#endif // UNO_GO_HPP

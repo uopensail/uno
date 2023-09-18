@@ -44,17 +44,16 @@ struct Function {
 using Function = struct Function;
 
 class CallHelper {
- public:
+public:
   CallHelper() = delete;
   CallHelper(Function *func, VarSlice *vars)
       : func_(func), vars_(vars), index_(0) {}
   ~CallHelper() = default;
-  template <typename T>
-  T *get() {
+  template <typename T> T *get() {
     return (T *)((*vars_)[func_->args[index_++]]);
   }
 
- private:
+private:
   Function *func_;
   VarSlice *vars_;
   int32_t index_;
@@ -63,7 +62,7 @@ class CallHelper {
 static bool contain_nullptr() { return false; }
 
 template <typename T, typename... Args>
-static bool contain_nullptr(T *arg, Args *...args) {
+static bool contain_nullptr(T *arg, Args *... args) {
   if constexpr (sizeof...(Args) == 0) {
     return arg == nullptr;
   } else {
@@ -72,7 +71,7 @@ static bool contain_nullptr(T *arg, Args *...args) {
 }
 
 template <typename T0, typename... ArgsType>
-T0 *safe_func_call(T0 *(*func)(ArgsType *...), ArgsType *...args) {
+T0 *safe_func_call(T0 *(*func)(ArgsType *...), ArgsType *... args) {
   if (contain_nullptr(args...)) {
     return nullptr;
   }
@@ -145,4 +144,4 @@ const std::map<std::string, Call> builtin_functions = {
     {"lower", get_func_call(lower)},
     {"concat", get_func_call(concat)},
 };
-#endif  // UNO_FUNC_HPP
+#endif // UNO_FUNC_HPP

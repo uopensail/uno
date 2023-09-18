@@ -302,23 +302,22 @@ struct OrNode : Node {
   }
 };
 
-template <typename T>
-static bool Compare(CmpType op, T *a, T *b) {
+template <typename T> static bool Compare(CmpType op, T *a, T *b) {
   switch (op) {
-    case kEqual:
-      return *a == *b;
-    case kNotEqual:
-      return *a != *b;
-    case kGreaterThan:
-      return *a > *b;
-    case kGreaterThanEqual:
-      return *a >= *b;
-    case kLessThan:
-      return *a < *b;
-    case kLessThanEqual:
-      return *a <= *b;
-    default:
-      return false;
+  case kEqual:
+    return *a == *b;
+  case kNotEqual:
+    return *a != *b;
+  case kGreaterThan:
+    return *a > *b;
+  case kGreaterThanEqual:
+    return *a >= *b;
+  case kLessThan:
+    return *a < *b;
+  case kLessThanEqual:
+    return *a <= *b;
+  default:
+    return false;
   }
 }
 
@@ -365,8 +364,7 @@ struct CmpNode : Node {
   }
 };
 
-template <typename T>
-static bool InSlice(T &v, Slice<T> &slice) {
+template <typename T> static bool InSlice(T &v, Slice<T> &slice) {
   for (size_t i = 0; i < slice.size(); i++) {
     if (v == slice[i]) {
       return true;
@@ -375,8 +373,7 @@ static bool InSlice(T &v, Slice<T> &slice) {
   return false;
 }
 
-template <typename T>
-static bool NotInSlice(T &v, Slice<T> &slice) {
+template <typename T> static bool NotInSlice(T &v, Slice<T> &slice) {
   for (size_t i = 0; i < slice.size(); i++) {
     if (v == slice[i]) {
       return false;
@@ -463,4 +460,4 @@ struct NotInNode : Node {
   }
 };
 
-#endif  // UNO_NODE_HPP
+#endif // UNO_NODE_HPP
