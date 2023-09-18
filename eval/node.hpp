@@ -211,6 +211,10 @@ struct FunctionNode : Node {
     auto iter = builtin_functions.find(json["func"].get<std::string>());
     assert(iter != builtin_functions.end());
     func.func = iter->second;
+
+#if !defined(__clang__)
+    func.args.reverse();
+#endif
   }
 
   virtual ~FunctionNode() {}

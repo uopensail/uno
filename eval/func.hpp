@@ -33,11 +33,7 @@ struct Function {
   Call func;
   Int32Slice args;
   Function() : func(nullptr) {}
-  Function(const Function &f) : func(f.func), args(f.args) {
-#ifdef __GCC__
-    args.reverse();
-#endif
-  }
+  Function(const Function &f) : func(f.func), args(f.args) {}
   ~Function() {}
   void *operator()(VarSlice *vars) { return func(this, vars); }
 };

@@ -186,6 +186,17 @@ template <typename T> struct GoSlice {
     }
   }
 
+  void print() {
+    std::cout << "[";
+    for (size_t i = 0; i < len; i++) {
+      if (i) {
+        std::cout << ",";
+      }
+      std::cout << ptr[i];
+    }
+    std::cout << "]" << std::endl;
+  }
+
   size_t size() { return len; }
 };
 template <typename T> using Slice = struct GoSlice<T>;

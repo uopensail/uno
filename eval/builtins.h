@@ -33,12 +33,14 @@
 template <typename T> T *_add(T *a, T *b) {
   T *ret = (T *)malloc(sizeof(T));
   *ret = *a + *b;
+  std::cout << *ret << std::endl;
   return ret;
 }
 
 template <typename T> T *_sub(T *a, T *b) {
   T *ret = (T *)malloc(sizeof(T));
   *ret = *a - *b;
+  std::cout << *ret << std::endl;
   return ret;
 }
 

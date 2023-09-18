@@ -23,7 +23,7 @@ func TestEval(t *testing.T) {
 			{
 				"id":2,
 				"ntype": 7,
-				"func": "addi",
+				"func": "subi",
 				"args":[0, 1]
 			},
 			{
