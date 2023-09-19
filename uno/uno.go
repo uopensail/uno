@@ -1,7 +1,7 @@
 package eval
 
 /*
-#cgo CPPFLAGS: -std=c++17
+#cgo CXXFLAGS: -std=c++17
 #include <stdlib.h>
 #include "uno.h"
 */
@@ -26,13 +26,11 @@ const (
 type Column struct {
 	Addr   int32
 	Column string
-	Type   DataType
 }
 
 type Columns struct {
 	addrs []int32
 	cols  []string
-	types []DataType
 }
 
 type Expression struct {
@@ -54,7 +52,6 @@ func NewEvaluator(code string) *Evaluator {
 		columns[cols.cols[i]] = Column{
 			Addr:   cols.addrs[i],
 			Column: cols.cols[i],
-			Type:   cols.types[i],
 		}
 	}
 	return &Evaluator{expression: expr, columns: columns}
@@ -65,6 +62,7 @@ func (e *Evaluator) Fill(col string, data interface{}, value []unsafe.Pointer) {
 	if !ok {
 		return
 	}
+
 	checkFill(data, &column, value)
 }
 
@@ -99,29 +97,17 @@ func (e *Evaluator) Release() {
 func checkFill(data interface{}, col *Column, value []unsafe.Pointer) {
 	switch v := data.(type) {
 	case int64:
-		if col.Type == Int64 {
-			value[col.Addr] = unsafe.Pointer(&v)
-		}
+		value[col.Addr] = unsafe.Pointer(&v)
 	case float32:
-		if col.Type == Float32 {
-			value[col.Addr] = unsafe.Pointer(&v)
-		}
+		value[col.Addr] = unsafe.Pointer(&v)
 	case string:
-		if col.Type == String {
-			value[col.Addr] = unsafe.Pointer(&v)
-		}
+		value[col.Addr] = unsafe.Pointer(&v)
 	case []int64:
-		if col.Type == Int64s {
-			value[col.Addr] = unsafe.Pointer(&v)
-		}
+		value[col.Addr] = unsafe.Pointer(&v)
 	case []float32:
-		if col.Type == Float32s {
-			value[col.Addr] = unsafe.Pointer(&v)
-		}
+		value[col.Addr] = unsafe.Pointer(&v)
 	case []string:
-		if col.Type == Strings {
-			value[col.Addr] = unsafe.Pointer(&v)
-		}
+		value[col.Addr] = unsafe.Pointer(&v)
 	default:
 		return
 	}

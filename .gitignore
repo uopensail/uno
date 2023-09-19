@@ -17,7 +17,7 @@
 *.dll
 
 # Fortran module files
-*.mod
+#*.mod
 *.smod
 
 # Compiled Static libraries
@@ -32,3 +32,4 @@
 *.app
 build/
 .vscode/
+node_modules/

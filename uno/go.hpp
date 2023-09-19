@@ -22,6 +22,7 @@
 #include <assert.h>
 #include <cstring>
 #include <iostream>
+#include <ostream>
 #include <string>
 #include <string_view>
 #include <vector>
@@ -36,48 +37,52 @@ enum DataType : int32_t {
   kError = 127,
 };
 
+// this struct is the same as go string
 typedef struct GoString {
   char *ptr;
   size_t len;
-
-  GoString(size_t len) {
-    ptr = (char *)calloc(len, 1);
-    len = len;
+  GoString() : ptr(nullptr), len(0) {}
+  GoString(size_t size) {
+    ptr = new char[size];
+    len = size;
+    memset(ptr, 0, len);
   }
 
   GoString(const std::string &str) {
     len = str.size();
-    ptr = (char *)malloc(len);
+    ptr = new char[len];
     memcpy(ptr, str.c_str(), len);
   }
 
   GoString(const GoString &s) {
     len = s.len;
-    ptr = (char *)malloc(len);
+    ptr = new char[len];
     memcpy(ptr, s.ptr, len);
   }
 
   void operator=(const GoString &s) {
     if (ptr != nullptr) {
-      free(ptr);
+      delete[] ptr;
     }
     len = s.len;
-    ptr = (char *)malloc(len);
+    ptr = new char[len];
     memcpy(ptr, s.ptr, len);
   }
 
   void operator=(const std::string &s) {
     if (ptr != nullptr) {
-      free(ptr);
+      delete[] ptr;
     }
     len = s.size();
-    ptr = (char *)malloc(len);
+    ptr = new char[len];
     memcpy(ptr, s.c_str(), len);
   }
 
   ~GoString() {
     if (ptr != nullptr) {
-      free(ptr);
+      delete[] ptr;
+      ptr = nullptr;
+      len = 0;
     }
   }
 
@@ -98,45 +103,58 @@ typedef struct GoString {
     return true;
   }
 
-  bool operator<(const GoString &s) const {
+  bool operator<(const GoString &s) {
     return std::string_view{ptr, len} < std::string_view{s.ptr, s.len};
   }
 
-  bool operator<=(const GoString &s) const {
+  bool operator<=(const GoString &s) {
     return std::string_view{ptr, len} <= std::string_view{s.ptr, s.len};
   }
 
-  bool operator>=(const GoString &s) const {
+  bool operator>=(const GoString &s) {
     return std::string_view{ptr, len} >= std::string_view{s.ptr, s.len};
   }
 
-  bool operator>(const GoString &s) const {
+  bool operator>(const GoString &s) {
     return std::string_view{ptr, len} > std::string_view{s.ptr, s.len};
   }
 
-  bool operator!=(const GoString &s) const {
+  bool operator!=(const GoString &s) {
     return std::string_view{ptr, len} != std::string_view{s.ptr, s.len};
+  }
+
+  friend std::ostream &operator<<(std::ostream &os, const GoString &s) {
+    os << "\"" << std::string_view{s.ptr, s.len} << "\"";
+    return os;
   }
 
 } GoString, *GoStringPtr;
 
+// this struct is the same as go slice
 template <typename T> struct GoSlice {
   T *ptr;
   size_t len;
   size_t cap;
-  GoSlice() : ptr(nullptr), len(0), cap(0) {}
+  GoSlice() : ptr(new T[8]), len(0), cap(8) { memset(ptr, 0, cap * sizeof(T)); }
+
+  GoSlice(size_t cap) {
+    len = 0;
+    cap = cap;
+    ptr = new T[cap];
+    memset(ptr, 0, cap * sizeof(T));
+  }
 
   GoSlice(const GoSlice &slice) {
     len = slice.len;
     cap = slice.cap;
-    ptr = (T *)calloc(cap, sizeof(T));
+    ptr = new T[cap];
     memcpy(ptr, slice.ptr, len * sizeof(T));
   }
 
   GoSlice(const std::vector<T> &slice) {
     len = slice.size();
     cap = slice.size();
-    ptr = (T *)calloc(cap, sizeof(T));
+    ptr = new T[cap];
     for (size_t i = 0; i < len; i++) {
       ptr[i] = slice[i];
     }
@@ -144,17 +162,17 @@ template <typename T> struct GoSlice {
 
   ~GoSlice() {
     if (ptr != nullptr) {
-      free(ptr);
+      delete[] ptr;
     }
   }
 
   void operator=(const GoSlice &slice) {
     if (ptr != nullptr) {
-      free(ptr);
+      delete[] ptr;
     }
     len = slice.size();
     cap = slice.size();
-    ptr = (T *)calloc(cap, sizeof(T));
+    ptr = new T[cap];
     for (size_t i = 0; i < len; i++) {
       ptr[i] = slice[i];
     }
@@ -162,11 +180,11 @@ template <typename T> struct GoSlice {
 
   void operator=(const std::vector<T> &slice) {
     if (ptr != nullptr) {
-      free(ptr);
+      delete[] ptr;
     }
     len = slice.size();
     cap = slice.size();
-    ptr = (T *)calloc(cap, sizeof(T));
+    ptr = new T[cap];
     for (size_t i = 0; i < len; i++) {
       ptr[i] = slice[i];
     }
@@ -184,6 +202,30 @@ template <typename T> struct GoSlice {
       ptr[i] = ptr[len - 1 - i];
       ptr[len - 1 - i] = v;
     }
+  }
+
+  void reserve(size_t capacity) {
+    cap = capacity;
+    T *p = new T[cap];
+    memset(p, 0, cap * sizeof(T));
+
+    for (size_t i = 0; i < len; i++) {
+      p[i] = ptr[i];
+    }
+    delete[] ptr;
+    ptr = p;
+  }
+
+  void resize(size_t capacity) {
+    reserve(capacity);
+    len = cap;
+  }
+
+  void append(const T &v) {
+    if (len == cap) {
+      reserve(cap * 2);
+    }
+    ptr[len++] = v;
   }
 
   void print() {

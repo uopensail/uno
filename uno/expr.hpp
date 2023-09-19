@@ -24,41 +24,18 @@
 struct Columns {
   Int32Slice addr;
   StringSlice cols;
-  TypeSlice types;
 
   Columns() {}
   ~Columns() {}
 
-  void resize(size_t cap) {
-    addr.cap = cap;
-    int32_t *iptr = (int32_t *)calloc(cap, sizeof(int32_t));
-    for (size_t i = 0; i < addr.len; i++) {
-      iptr[i] = addr.ptr[i];
-    }
-    addr.ptr = iptr;
-
-    cols.cap = cap;
-    GoString *sptr = (GoString *)calloc(cap, sizeof(GoString));
-    for (size_t i = 0; i < cols.len; i++) {
-      sptr[i] = cols.ptr[i];
-    }
-    cols.ptr = sptr;
-
-    types.cap = cap;
-    DataType *dptr = (DataType *)calloc(cap, sizeof(DataType));
-    for (size_t i = 0; i < types.len; i++) {
-      dptr[i] = types.ptr[i];
-    }
-    types.ptr = dptr;
+  void reserve(size_t cap) {
+    addr.reserve(cap);
+    cols.reserve(cap);
   }
 
-  void push(int32_t id, const std::string &str, DataType dtype) {
-    addr[addr.len] = id;
-    addr.len++;
-    cols[cols.len] = str;
-    cols.len++;
-    types[types.len] = dtype;
-    types.len++;
+  void append(int32_t id, const std::string &str) {
+    addr.append(id);
+    cols.append(str);
   }
 };
 
@@ -70,17 +47,13 @@ struct Expression {
     json doc = json::parse(str);
     const std::vector<json> &array = doc["nodes"].get<std::vector<json>>();
     size_t size = array.size();
-    columns.resize(size);
+    columns.reserve(size);
 
     // create node slice
-    nodes.cap = size;
-    nodes.len = size;
-    nodes.ptr = (Node **)calloc(size, sizeof(Node *));
+    nodes.resize(size);
 
     // create varslice
-    varslice.cap = size;
-    varslice.len = size;
-    varslice.ptr = (void **)calloc(size, sizeof(void *));
+    varslice.resize(size);
 
     for (size_t i = 0; i < size; i++) {
       NodeType ntype = array[i]["ntype"].get<NodeType>();
@@ -88,7 +61,7 @@ struct Expression {
       if (ntype == NodeType::kVarNode) {
         VarNode *n = new VarNode(array[i]);
         nodes[id] = n;
-        columns.push(id, n->value, n->dtype);
+        columns.append(id, n->value);
       } else if (ntype == NodeType::kInt64Node) {
         nodes[id] = new Int64Node(array[i]);
         (*(nodes[id]))(&varslice);
@@ -130,6 +103,14 @@ struct Expression {
         nodes[i] = nullptr;
       }
     }
+
+    // release varslice
+    for (size_t i = 0; i < varslice.size(); i++) {
+      if (varslice[i] != nullptr) {
+        free(varslice[i]);
+        varslice[i] = nullptr;
+      }
+    }
   }
   int32_t operator()(VarSlice *vars) {
     for (size_t i = 0; i < nodes.size(); i++) {
@@ -141,7 +122,7 @@ struct Expression {
     }
     void *ptr = (*vars)[vars->size() - 1];
     if (ptr != nullptr) {
-      if (*(static_cast<bool *>(ptr))) {
+      if (*(bool *)(ptr)) {
         return 1;
       }
       return 0;

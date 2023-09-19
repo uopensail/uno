@@ -38,6 +38,7 @@ enum NodeType : int32_t {
   kCmpNode,
   kInNode,
   kNotInNode,
+  kLiteralsNode,
   kErrorNode = 127,
 };
 
@@ -63,12 +64,9 @@ using NodePtrSlice = Slice<Node *>;
 
 struct VarNode : Node {
   std::string value;
-  DataType dtype;
-  VarNode(int32_t i, const std::string &str, DataType t)
-      : Node(i), value(str), dtype(t) {}
+  VarNode(int32_t i, const std::string &str) : Node(i), value(str) {}
   VarNode(const json &json)
-      : VarNode(json["id"].get<int32_t>(), json["value"].get<std::string>(),
-                json["dtype"].get<DataType>()) {}
+      : VarNode(json["id"].get<int32_t>(), json["value"].get<std::string>()) {}
   virtual ~VarNode() {}
   virtual NodeType type() { return NodeType::kVarNode; }
   virtual void operator()(VarSlice *vars) {}
@@ -180,15 +178,14 @@ struct StringSliceNode : Node {
   StringSliceNode(const json &json) : Node(json["id"].get<int32_t>()) {
     const std::vector<std::string> &slice =
         json["value"].get<std::vector<std::string>>();
-    value.cap = slice.size();
-    value.len = slice.size();
-    value.ptr = (GoString *)malloc(sizeof(GoString) * slice.size());
+    value.reserve(slice.size());
     for (size_t i = 0; i < slice.size(); i++) {
-      value.ptr[i] = slice[i];
+      value.append(slice[i]);
     }
   }
 
   virtual ~StringSliceNode() {}
+
   virtual NodeType type() { return NodeType::kStringSliceNode; }
   virtual void operator()(VarSlice *vars) {
     if ((*vars)[id] != nullptr) {
