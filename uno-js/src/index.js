@@ -4,9 +4,9 @@ import {
     CommonTokenStream,
     ErrorListener,
 } from 'antlr4';
-import UnoListener from "./uno";
-import unoParser from "./unoParser";
-import unoLexer from "./unoLexer";
+import UnoListener from "./uno.js";
+import unoParser from "./unoParser.js";
+import unoLexer from "./unoLexer.js";
 
 export function UnoCheck(str) {
     try {

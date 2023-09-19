@@ -1,21 +1,21 @@
 import moment from "moment";
 import assert from "assert";
 
-export function add(x,y) {
-    return x+y;
+export function add(x, y) {
+    return x + y;
 }
 
-export function sub(x,y) {
-    return x-y;
+export function sub(x, y) {
+    return x - y;
 }
 
-export function mul(x,y) {
-    return x*y;
+export function mul(x, y) {
+    return x * y;
 }
 
 export function div(x, y) {
     assert(y !== 0, "division by zero");
-    return x/y;
+    return x / y;
 }
 
 export function mod(x, y) {
@@ -83,26 +83,30 @@ export function concat(str1, str2) {
     return str1 + str2;
 }
 
-export function year(s) {
-    return parseInt(moment(s).format('YYYY'));
+
+export function year() {
+    return moment().format('YYYY');
 }
 
-export function month(str) {
-    return parseInt(moment(str).format('MM'));
+
+
+export function month() {
+    return moment().format('MM');
 }
 
-export function day(str) {
-    return parseInt(moment(str).format('DD'));
+export function day() {
+    return moment().format('DD');
 }
 
-export function hour(str) {
-    return parseInt(moment(str).format('hh'));
+export function hour() {
+    return moment().format('hh');
 }
 
-export function minute(str) {
-    return parseInt(moment(str).format('mm'));
+export function minute() {
+    return moment().format('mm');
 }
 
-export function second(str) {
-    return parseInt(moment(str).format('ss'));
+
+export function second() {
+    return moment().format('ss');
 }

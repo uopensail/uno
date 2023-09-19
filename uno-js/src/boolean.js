@@ -1,6 +1,6 @@
 import assert from "assert";
-import * as arithmetic from "./arithmetic"
-import * as types from "./types"
+import * as arithmetic from "./arithmetic.js"
+import * as types from "./types.js"
 
 export class BooleanExpression {
     GetId() {
@@ -30,6 +30,7 @@ export class BooleanExpression {
 
 export class Literal extends BooleanExpression {
     constructor(value) {
+        super();
         assert(value instanceof boolean, "Value must be an boolean");
         this.value = value;
         this.id = -1;
@@ -67,6 +68,7 @@ export class Literal extends BooleanExpression {
 
 export class And extends BooleanExpression {
     constructor(left, right) {
+        super();
         assert(left instanceof BooleanExpression, "Left must be a BooleanExpression");
         assert(right instanceof BooleanExpression, "Right must be a BooleanExpression");
         this.left = left;
@@ -140,6 +142,7 @@ export class And extends BooleanExpression {
 
 export class Or extends BooleanExpression {
     constructor(left, right) {
+        super();
         assert(left instanceof BooleanExpression, "Left must be a BooleanExpression");
         assert(right instanceof BooleanExpression, "Right must be a BooleanExpression");
         this.left = left;
@@ -213,6 +216,7 @@ export class Or extends BooleanExpression {
 
 export class Cmp extends BooleanExpression {
     constructor(left, right, op) {
+        super();
         assert(left instanceof arithmetic.ArithmeticExpression, "Left must be a ArithmeticExpression");
         assert(right instanceof arithmetic.ArithmeticExpression, "Right must be a ArithmeticExpression");
         this.left = left;
@@ -264,14 +268,27 @@ export class Cmp extends BooleanExpression {
     }
 
     GetDataType() {
-        if (this.right instanceof arithmetic.Float32s) {
+        if (this.op === "in" || this.opop === "not in") {
+            if (this.right instanceof arithmetic.Float32s) {
+                return types.DataType.kFloat32;
+            } else if (this.right instanceof arithmetic.Int64s) {
+                return types.DataType.kInt64;
+            } else if (this.right instanceof arithmetic.Strings) {
+                return types.DataType.kString;
+            }
             return types.DataType.kFloat32;
-        } else if (this.right instanceof arithmetic.Int64s) {
-            return types.DataType.kInt64;
-        } else if (this.right instanceof arithmetic.Strings) {
-            return types.DataType.kString;
         }
-        return types.DataType.kError;
+        let left = this.left.GetDataType();
+        let right = this.right.GetDataType();
+        if (left === types.DataType.kFloat32 || right === types.DataType.kFloat32) {
+            return types.DataType.kFloat32;
+        } else if (left === types.DataType.kString || right === types.DataType.kString) {
+            return types.DataType.kString;
+        } else if (left === types.DataType.kInt64 || right === types.DataType.kInt64) {
+            return types.DataType.kInt64;
+        }
+        // default is float type
+        return types.DataType.kFloat32;
     }
 
     ToJson() {

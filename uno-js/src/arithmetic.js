@@ -1,10 +1,14 @@
 import assert from "assert";
-import builtins from "./builtins";
-import * as types from "./types";
+import * as builtins from "./builtins.js";
+import * as types from "./types.js";
 
 
 export class ArithmeticExpression {
     GetId() {
+        throw new Error("Not implemented");
+    }
+
+    GetDataType() {
         throw new Error("Not implemented");
     }
 
@@ -23,7 +27,7 @@ export class ArithmeticExpression {
     ToJson() {
         throw new Error("Not implemented");
     }
-    
+
     ToList() {
         throw new Error("Not implemented");
     }
@@ -31,6 +35,7 @@ export class ArithmeticExpression {
 
 export class Int64 extends ArithmeticExpression {
     constructor(value) {
+        super();
         assert(Number.isInteger(value), "Value must be an integer");
         this.value = value;
         this.id = -1;
@@ -63,10 +68,15 @@ export class Int64 extends ArithmeticExpression {
     ToList() {
         return [this];
     }
+
+    GetDataType() {
+        return types.DataType.kInt64;
+    }
 }
 
 export class Int64s extends ArithmeticExpression {
     constructor(value) {
+        super();
         assert(value instanceof Array, "Value must be an array");
         this.value = [];
         for (var i = 0; i < value.length; i++) {
@@ -78,6 +88,10 @@ export class Int64s extends ArithmeticExpression {
 
     GetId() {
         return this.id;
+    }
+
+    GetDataType() {
+        return types.DataType.kInt64s;
     }
 
     GetType() {
@@ -108,6 +122,7 @@ export class Int64s extends ArithmeticExpression {
 
 export class Float32 extends ArithmeticExpression {
     constructor(value) {
+        super();
         assert(!Number.isInteger(value), "Value must be a float");
         this.value = value;
         this.id = -1;
@@ -115,6 +130,10 @@ export class Float32 extends ArithmeticExpression {
 
     GetId() {
         return this.id;
+    }
+
+    GetDataType() {
+        return types.DataType.kFloat32;
     }
 
     GetType() {
@@ -144,6 +163,7 @@ export class Float32 extends ArithmeticExpression {
 
 export class Float32s extends ArithmeticExpression {
     constructor(value) {
+        super();
         assert(value instanceof Array, "Value must be an array");
         this.value = [];
         for (var i = 0; i < value.length; i++) {
@@ -155,6 +175,10 @@ export class Float32s extends ArithmeticExpression {
 
     GetId() {
         return this.id;
+    }
+
+    GetDataType() {
+        return types.DataType.kFloat32s;
     }
 
     GetType() {
@@ -184,6 +208,7 @@ export class Float32s extends ArithmeticExpression {
 
 export class String extends ArithmeticExpression {
     constructor(value) {
+        super();
         assert(typeof value === "string", "Value must be a string");
         this.value = value;
         this.id = -1;
@@ -191,6 +216,10 @@ export class String extends ArithmeticExpression {
 
     GetId() {
         return this.id;
+    }
+
+    GetDataType() {
+        return types.DataType.kString;
     }
 
     GetType() {
@@ -245,6 +274,10 @@ export class Strings extends ArithmeticExpression {
         return this;
     }
 
+    GetDataType() {
+        return types.DataType.kStrings;
+    }
+
     ToJson() {
         return {
             "id": this.id,
@@ -256,11 +289,12 @@ export class Strings extends ArithmeticExpression {
     ToList() {
         return [this];
     }
-    
+
 }
 
 export class Function extends ArithmeticExpression {
     constructor(func, args) {
+        super();
         assert(typeof func === "string", "func must be a string");
         assert(args instanceof Array, "Value must be an array");
         this.func = func;
@@ -274,6 +308,27 @@ export class Function extends ArithmeticExpression {
 
     GetId() {
         return this.id;
+    }
+
+    GetDataType() {
+        var floats = ["exp", "log", "log10", "log2", "sqrt", "sin", "cos", "abs", "asin", "acos", "atan",
+            "sinh", "cosh", "tanh", "tan", "asinh", "acosh", "atanh", "+", "-", "*", "/", "min", "max",
+            "sigmoid", "addf", "subf", "mulf", "divf", "minf"];
+
+        var ints = ["round", "floor", "ceil", "%", "date_diff", "unix_timestamp",
+            "addi", "subi", "muli", "divi", "mini", "mod"];
+
+        var strings = ["from_unixtime", "substr", "concat", "lower", "upper", "reverse",
+            "date_add", "date_sub", "year", "month", "day", "date", "hour", "minute", "second"]
+
+        if (floats.includes(this.func)) {
+            return types.DataType.kFloat32;
+        } else if (ints.includes(this.func)) {
+            return types.DataType.kInt64;
+        } else if (strings.includes(this.func)) {
+            return types.DataType.kString;
+        }
+        return types.DataType.kError;
     }
 
     GetType() {
@@ -361,6 +416,7 @@ export class Function extends ArithmeticExpression {
 
 export class Column extends ArithmeticExpression {
     constructor(value) {
+        super();
         assert(typeof value === "string", "Value must be a string");
         this.value = value;
         this.id = -1;
@@ -368,6 +424,10 @@ export class Column extends ArithmeticExpression {
 
     GetId() {
         return this.id;
+    }
+
+    GetDataType() {
+        return types.DataType.kError;
     }
 
     GetType() {
@@ -385,7 +445,7 @@ export class Column extends ArithmeticExpression {
     ToJson() {
         return {
             "id": this.id,
-            "ntype": types.NodeType.kFunctionNode,
+            "ntype": types.NodeType.kVarNode,
             "value": this.value,
         }
     }

@@ -1,6 +1,6 @@
-import unoListener from './unoListener';
-import * as arithmetic from "./arithmetic"
-import * as boolean from "./boolean"
+import unoListener from './unoListener.js';
+import * as arithmetic from "./arithmetic.js"
+import * as boolean from "./boolean.js"
 
 export default class UnoListener extends unoListener {
 	constructor() {
@@ -19,7 +19,7 @@ export default class UnoListener extends unoListener {
 				throw new Error(`${name} : Arithmetic Expression Is Undefined`);
 			}
 			let op = ctx.T_COMPARE().getText();
-			let tmp = new bool.Cmp(op, left, right);
+			let tmp = new boolean.Cmp(left, right, op);
 			_this.booleans.push(tmp.Simplify());
 		};
 	}
@@ -97,15 +97,15 @@ export default class UnoListener extends unoListener {
 			if (ctx.DECIMAL_LIST() !== null) {
 				let list = _this.parseDecimalList(ctx.DECIMAL_LIST().getText());
 				let array = new arithmetic.Float32s(list);
-				_this.booleans.push(new boolean.Cmp("not in", expr, array));
+				_this.booleans.push(new boolean.Cmp(expr, array, "not in"));
 			} else if (ctx.INTEGER_LIST() !== null) {
 				let list = _this.parseIntegerList(ctx.INTEGER_LIST().getText());
 				let array = new arithmetic.Int64s(list);
-				_this.booleans.push(new boolean.Cmp("not in", expr, array));
+				_this.booleans.push(new boolean.Cmp(expr, array, "not in"));
 			} else {
 				let list = _this.parseStringList(ctx.STRING_LIST().getText());
 				let array = new arithmetic.Strings(list);
-				_this.booleans.push(new boolean.Cmp("not in", expr, array));
+				_this.booleans.push(new boolean.Cmp(expr, array, "not in",));
 			}
 		};
 	}
@@ -134,15 +134,15 @@ export default class UnoListener extends unoListener {
 			if (ctx.DECIMAL_LIST() !== null) {
 				let list = _this.parseDecimalList(ctx.DECIMAL_LIST().getText());
 				let array = new arithmetic.Float32s(list);
-				_this.booleans.push(new boolean.Cmp("in", expr, array));
+				_this.booleans.push(new boolean.Cmp(expr, array, "in"));
 			} else if (ctx.INTEGER_LIST() !== null) {
 				let list = _this.parseIntegerList(ctx.INTEGER_LIST().getText());
 				let array = new arithmetic.Int64s(list);
-				_this.booleans.push(new boolean.Cmp("in", expr, array));
+				_this.booleans.push(new boolean.Cmp(expr, array, "in"));
 			} else {
 				let list = _this.parseStringList(ctx.STRING_LIST().getText());
 				let array = new arithmetic.Strings(list);
-				_this.booleans.push(new boolean.Cmp("in", expr, array));
+				_this.booleans.push(new boolean.Cmp(expr, array, "in"));
 			}
 		};
 	}
