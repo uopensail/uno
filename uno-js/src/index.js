@@ -36,6 +36,7 @@ export function Parse(str) {
     let walker = new UnoListener();
     ParseTreeWalker.DEFAULT.walk(walker, tree);
     let root = walker.booleans.pop();
+    root = root.Simplify();
     let nodes = root.ToList();
     let ret = [];
     for (let i = 0; i < nodes.length; i++) {

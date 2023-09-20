@@ -24,7 +24,7 @@ export const NodeType = {
     kCmpNode: 10,
     kInNode: 11,
     kNotInNode: 12,
-    kLiteralsNode: 13,
+    kLiteralNode: 13,
     kErrorNode: 127,
 };
 

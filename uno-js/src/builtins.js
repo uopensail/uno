@@ -2,19 +2,37 @@ import moment from "moment";
 import assert from "assert";
 import * as types from "./types.js"
 
-export function add(x, y) {
+export function addi(x, y) {
     return x + y;
 }
 
-export function sub(x, y) {
+export function addf(x, y) {
+    return x + y;
+}
+
+
+export function subi(x, y) {
     return x - y;
 }
 
-export function mul(x, y) {
+export function subf(x, y) {
+    return x - y;
+}
+
+export function muli(x, y) {
     return x * y;
 }
 
-export function div(x, y) {
+export function mulf(x, y) {
+    return x * y;
+}
+
+export function divi(x, y) {
+    assert(y !== 0, "division by zero");
+    return x / y;
+}
+
+export function divf(x, y) {
     assert(y !== 0, "division by zero");
     return x / y;
 }
@@ -32,9 +50,26 @@ export function min(x, y) {
     return Math.min(x, y);
 }
 
+export function mini(x, y) {
+    return Math.min(x, y);
+}
+
+export function minf(x, y) {
+    return Math.min(x, y);
+}
+
 export function max(x, y) {
     return Math.max(x, y);
 }
+
+export function maxi(x, y) {
+    return Math.max(x, y);
+}
+
+export function maxf(x, y) {
+    return Math.max(x, y);
+}
+
 
 // timestamp for second
 export function from_unixtime(timestamp) {

@@ -31,7 +31,7 @@ export class BooleanExpression {
 export class Literal extends BooleanExpression {
     constructor(value) {
         super();
-        assert(value instanceof boolean, "Value must be an boolean");
+        assert(typeof (value) === "boolean", "Value must be an boolean");
         this.value = value;
         this.id = -1;
     }
@@ -58,11 +58,15 @@ export class Literal extends BooleanExpression {
     }
 
     ToJson() {
-        throw new Error("Not implemented");
+        return {
+            "id": this.id,
+            "ntype": types.NodeType.kLiteralNode,
+            "value": this.value,
+        }
     }
 
     ToList() {
-        throw new Error("Not implemented");
+        return [this]
     }
 }
 
@@ -95,7 +99,7 @@ export class And extends BooleanExpression {
     Negation() {
         var left = this.left.Negation();
         var right = this.right.Negation();
-        return Or(left, right);
+        return new Or(left, right);
     }
 
     Simplify() {
@@ -105,13 +109,13 @@ export class And extends BooleanExpression {
             if (this.left.value) {
                 return this.right;
             }
-            return Literal(false);
+            return new Literal(false);
         }
         if (this.right.Trivial()) {
             if (this.right.value) {
                 return this.left;
             }
-            return Literal(false);
+            return new Literal(false);
         }
         return this;
     }
@@ -169,7 +173,7 @@ export class Or extends BooleanExpression {
     Negation() {
         var left = this.left.Negation();
         var right = this.right.Negation();
-        return And(left, right);
+        return new And(left, right);
     }
 
     Simplify() {
@@ -177,13 +181,13 @@ export class Or extends BooleanExpression {
         this.right = this.right.Simplify();
         if (this.left.Trivial()) {
             if (this.left.value) {
-                return Literal(true);
+                return new Literal(true);
             }
             return this.right;
         }
         if (this.right.Trivial()) {
             if (this.right.value) {
-                return Literal(true);
+                return new Literal(true);
             }
             return this.left;
         }
@@ -275,8 +279,16 @@ export class Cmp extends BooleanExpression {
         if (!this.Trivial()) {
             return this;
         }
-        var ret = eval(`${this.left.value} ${this.op} ${this.right.value}`)
-        return Literal(ret);
+        if (this.op === "in") {
+            var ret = eval(`[${this.right.value}].includes(${this.left.value})`)
+            return new Literal(ret);
+        } else if (this.op === "not in") {
+            var ret = eval(`[${this.right.value}].includes(${this.left.value})`)
+            return new Literal(!ret);
+        } else {
+            var ret = eval(`${this.left.value} ${this.op} ${this.right.value}`)
+            return new Literal(ret);
+        }
     }
 
     GetDataType() {

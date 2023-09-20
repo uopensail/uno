@@ -15,7 +15,7 @@ export default class UnoListener extends unoListener {
 		return function (ctx) {
 			let right = _this.arithmetics.pop();
 			let left = _this.arithmetics.pop();
-			if (left === undefined || right === undefined) {
+			if (left == null || right == null) {
 				throw new Error(`${name} : Arithmetic Expression Is Undefined`);
 			}
 			let op = ctx.T_COMPARE().getText();
@@ -32,7 +32,7 @@ export default class UnoListener extends unoListener {
 		let name = "exitNotBooleanExpressionBuilder";
 		return function (ctx) {
 			let expr = _this.booleans.pop();
-			if (expr === undefined) {
+			if (expr == null) {
 				throw new Error(`${name} : Boolean Expression Is Undefined`);
 			}
 			_this.bools.push(expr.Negation());
@@ -48,7 +48,7 @@ export default class UnoListener extends unoListener {
 		return function (ctx) {
 			let right = _this.booleans.pop();
 			let left = _this.booleans.pop();
-			if (left === undefined || right === undefined) {
+			if (left == null || right == null) {
 				throw new Error(`${name} : Boolean Expression Is Undefined`);
 			}
 			let tmp = new boolean.Or(left, right)
@@ -75,7 +75,7 @@ export default class UnoListener extends unoListener {
 		return function (ctx) {
 			let right = _this.booleans.pop();
 			let left = _this.booleans.pop();
-			if (left === undefined || right === undefined) {
+			if (left == null || right == null) {
 				throw new Error(`${name} : Boolean Expression Is Undefined`);
 			}
 			let tmp = new boolean.And(left, right);
@@ -91,7 +91,7 @@ export default class UnoListener extends unoListener {
 		let name = "exitNotInBooleanExpressionBuilder";
 		return function (ctx) {
 			let expr = _this.arithmetics.pop();
-			if (expr === undefined) {
+			if (expr == null) {
 				throw new Error(`${name} : Arithmetic Expression Is Undefined`);
 			}
 			if (ctx.DECIMAL_LIST() !== null) {
@@ -128,7 +128,7 @@ export default class UnoListener extends unoListener {
 		let name = "exitInBooleanExpressionBuilder";
 		return function (ctx) {
 			let expr = _this.arithmetics.pop();
-			if (expr === undefined) {
+			if (expr == null) {
 				throw new Error(`${name} : Arithmetic Expression Is Undefined`);
 			}
 			if (ctx.DECIMAL_LIST() !== null) {
@@ -156,7 +156,7 @@ export default class UnoListener extends unoListener {
 		return function (ctx) {
 			let second = _this.arithmetics.pop();
 			let first = _this.arithmetics.pop();
-			if (first === undefined || second === undefined) {
+			if (first == null || second == null) {
 				throw new Error(`${name} :Arithmetic Expression Is Undefined`);
 			}
 
@@ -207,7 +207,7 @@ export default class UnoListener extends unoListener {
 			let args = [];
 			for (let i = 0; i < n; i++) {
 				const tmp = _this.arithmetics.pop();
-				if (tmp === undefined) {
+				if (tmp == null) {
 					throw new Error(`${name} : Arithmetic Expression Is Undefined`);
 				}
 				args.push(tmp);
@@ -225,10 +225,13 @@ export default class UnoListener extends unoListener {
 		let _this = this;
 
 		return function (ctx) {
-			let mark = ctx.type_marker().getText();
-			if (mark === "") {
-				mark = "[float32]"
+			let node = ctx.type_marker();
+			let mark = "[float32]";
+
+			if (node != null) {
+				mark = node.getText();
 			}
+
 			let tmp = new arithmetic.Column(ctx.IDENTIFIER().getText(), mark);
 			_this.arithmetics.push(tmp);
 		};
@@ -243,7 +246,7 @@ export default class UnoListener extends unoListener {
 		return function (ctx) {
 			let second = _this.arithmetics.pop();
 			let first = _this.arithmetics.pop();
-			if (first === undefined || second === undefined) {
+			if (first == null || second == null) {
 				throw new Error(`${name} : Arithmetic Expression Is Undefined`);
 			}
 			if (second == 0) {
@@ -281,7 +284,7 @@ export default class UnoListener extends unoListener {
 		return function (ctx) {
 			let second = _this.arithmetics.pop();
 			let first = _this.arithmetics.pop();
-			if (first === undefined || second === undefined) {
+			if (first == null || second == null) {
 				throw new Error(`${name} : Arithmetic Expression Is Undefined`);
 			}
 			let tmp = new arith.Function("-", [first, second]);
@@ -299,7 +302,7 @@ export default class UnoListener extends unoListener {
 		return function (ctx) {
 			let second = _this.arithmetics.pop();
 			let first = _this.arithmetics.pop();
-			if (first === undefined || second === undefined) {
+			if (first == null || second == null) {
 				throw new Error(`${name} :Arithmetic Expression Is Undefined`);
 			}
 			if (second == 0) {
@@ -332,7 +335,7 @@ export default class UnoListener extends unoListener {
 		return function (ctx) {
 			let second = _this.arithmetics.pop();
 			let first = _this.arithmetics.pop();
-			if (first === undefined || second === undefined) {
+			if (first == null || second == null) {
 				throw new Error(`${name} : Arithmetic Expression Is Undefined`);
 			}
 

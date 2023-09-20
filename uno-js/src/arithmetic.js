@@ -123,7 +123,6 @@ export class Int64s extends ArithmeticExpression {
 export class Float32 extends ArithmeticExpression {
     constructor(value) {
         super();
-        assert(!Number.isInteger(value), "Value must be a float");
         this.value = value;
         this.id = -1;
     }
@@ -167,7 +166,6 @@ export class Float32s extends ArithmeticExpression {
         assert(value instanceof Array, "Value must be an array");
         this.value = [];
         for (var i = 0; i < value.length; i++) {
-            assert(!Number.isInteger(value[i]), "Value must be a float");
             this.value.push(value[i]);
         }
         this.id = -1;
@@ -249,10 +247,11 @@ export class String extends ArithmeticExpression {
 
 export class Strings extends ArithmeticExpression {
     constructor(value) {
+        super();
         assert(value instanceof Array, "Value must be an array");
         this.value = [];
         for (var i = 0; i < value.length; i++) {
-            assert(typeof value[i] === "string", "Value must be a string");
+            assert(typeof (value[i]) === "string", "Value must be a string");
             this.value.push(value[i]);
         }
         this.id = -1;
@@ -299,12 +298,35 @@ export class Function extends ArithmeticExpression {
         assert(args instanceof Array, "Value must be an array");
         this.func = func;
         this.args = [];
-        let io = builtins.function_io_types[this.func];
-        assert(io !== undefined, `${func} not defined`);
-        for (var i = 0; i < args.length; i++) {
-            assert(args[i] instanceof ArithmeticExpression, "arg must be an arithmetic expression");
-            assert(args[i].GetDataType() === io["in"][i], `arg[${i}] type not matching`);
-            this.args.push(args[i]);
+        // support +,-,*,/
+        if (this.func === "+" || this.func === "-" || this.func === "*" || this.func === "/") {
+            assert(args.length === 2, `${this.func} arg length != 2`);
+            assert(args[0].GetDataType() === args[1].GetDataType(), "args data type not match");
+            var dic = {
+                "+": "add",
+                "-": "sub",
+                "*": "mul",
+                "/": "div",
+            };
+            if (args[0].GetDataType() === types.DataType.kFloat32) {
+                this.func = `${dic[this.func]}f`
+                this.args.push(args[0]);
+                this.args.push(args[1]);
+            } else if (args[0].GetDataType() === types.DataType.kInt64) {
+                this.func = `${dic[this.func]}i`
+                this.args.push(args[0]);
+                this.args.push(args[1]);
+            } else {
+                throw new Error(`type: ${args[0].GetDataType()} not support`)
+            }
+        } else {
+            let io = builtins.function_io_types[this.func];
+            assert(io !== undefined, `${func} not defined`);
+            for (var i = 0; i < args.length; i++) {
+                assert(args[i] instanceof ArithmeticExpression, "arg must be an arithmetic expression");
+                assert(args[i].GetDataType() === io["in"][i], `args[${i}] type not matching`);
+                this.args.push(args[i]);
+            }
         }
         this.id = -1;
     }
@@ -370,8 +392,17 @@ export class Function extends ArithmeticExpression {
             assert(this.args.length === 1, "argument length must be equal to 1");
             var ret = builtins[this.func](this.args[0].value);
             return new Int64(ret);
-        } else if (this.func === "concat" || this.func === "date_add" || this.func === "date_sub" || this.func === "date_diff"
-            || this.func === "min" || this.func === "max") {
+        } else if (this.func === "min" || this.func === "minf" || this.func === "max"
+            || this.func === "maxf" || this.func === "addf" || this.func === "subf"
+            || this.func === "mulf" || this.func === "divf") {
+            assert(this.args.length === 2, "argument length must be equal to 2");
+            return new Float32(builtins[this.func](this.args[0].value, this.args[1].value));
+        } else if (this.func === "mini" || this.func === "maxi" || this.func === "addi"
+            || this.func === "subi" || this.func === "muli" || this.func === "divi") {
+            assert(this.args.length === 2, "argument length must be equal to 2");
+            return new Int64(builtins[this.func](this.args[0].value, this.args[1].value));
+        } else if (this.func === "concat" || this.func === "date_add" || this.func === "date_sub"
+            || this.func === "date_diff") {
             assert(this.args.length === 2, "argument length must be equal to 2");
             return new String(builtins[this.func](this.args[0].value, this.args[1].value));
         } else if (this.func === "substr") {
