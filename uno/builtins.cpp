@@ -61,12 +61,6 @@ float *_sqrt(float *x) {
   return ret;
 }
 
-float *_abs(float *x) {
-  float *ret = (float *)malloc(sizeof(float));
-  *ret = abs(*x);
-  return ret;
-}
-
 float *_sin(float *x) {
   float *ret = (float *)malloc(sizeof(float));
   *ret = sinf(*x);

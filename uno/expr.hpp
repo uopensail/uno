@@ -24,6 +24,7 @@
 struct Columns {
   Int32Slice addr;
   StringSlice cols;
+  TypeSlice types;
 
   Columns() {}
   ~Columns() {}
@@ -31,11 +32,13 @@ struct Columns {
   void reserve(size_t cap) {
     addr.reserve(cap);
     cols.reserve(cap);
+    types.reserve(cap);
   }
 
-  void append(int32_t id, const std::string &str) {
+  void append(int32_t id, const std::string &str, DataType type) {
     addr.append(id);
     cols.append(str);
+    types.append(type);
   }
 };
 
@@ -58,10 +61,13 @@ struct Expression {
     for (size_t i = 0; i < size; i++) {
       NodeType ntype = array[i]["ntype"].get<NodeType>();
       int32_t id = array[i]["id"].get<int32_t>();
-      if (ntype == NodeType::kVarNode) {
+      if (ntype == NodeType::kLiteralNode) {
+        nodes[id] = new LiteralNode(array[i]);
+        (*(nodes[id]))(&varslice);
+      } else if (ntype == NodeType::kVarNode) {
         VarNode *n = new VarNode(array[i]);
         nodes[id] = n;
-        columns.append(id, n->value);
+        columns.append(id, n->value, n->dtype);
       } else if (ntype == NodeType::kInt64Node) {
         nodes[id] = new Int64Node(array[i]);
         (*(nodes[id]))(&varslice);
@@ -112,6 +118,7 @@ struct Expression {
       }
     }
   }
+
   int32_t operator()(VarSlice *vars) {
     for (size_t i = 0; i < nodes.size(); i++) {
       Node *ptr = nodes[i];

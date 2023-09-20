@@ -24,6 +24,8 @@
 
 using json = nlohmann::json;
 
+// this file defines all types of nodes
+
 enum NodeType : int32_t {
   kVarNode = 0,
   kInt64Node,
@@ -38,7 +40,7 @@ enum NodeType : int32_t {
   kCmpNode,
   kInNode,
   kNotInNode,
-  kLiteralsNode,
+  kLiteralNode,
   kErrorNode = 127,
 };
 
@@ -64,12 +66,32 @@ using NodePtrSlice = Slice<Node *>;
 
 struct VarNode : Node {
   std::string value;
-  VarNode(int32_t i, const std::string &str) : Node(i), value(str) {}
+  DataType dtype;
+  VarNode(int32_t i, const std::string &str, DataType type)
+      : Node(i), value(str), dtype(type) {}
   VarNode(const json &json)
-      : VarNode(json["id"].get<int32_t>(), json["value"].get<std::string>()) {}
+      : VarNode(json["id"].get<int32_t>(), json["value"].get<std::string>(),
+                json["dtype"].get<DataType>()) {}
   virtual ~VarNode() {}
   virtual NodeType type() { return NodeType::kVarNode; }
   virtual void operator()(VarSlice *vars) {}
+};
+
+struct LiteralNode : Node {
+  bool value;
+  LiteralNode(int32_t i, bool v) : Node(i), value(v) {}
+  LiteralNode(const json &json)
+      : LiteralNode(json["id"].get<int32_t>(), json["value"].get<bool>()) {}
+  virtual ~LiteralNode() {}
+  virtual NodeType type() { return NodeType::kLiteralNode; }
+  virtual void operator()(VarSlice *vars) {
+    if ((*vars)[id] != nullptr) {
+      return;
+    }
+    bool *v = (bool *)malloc(sizeof(bool));
+    *v = value;
+    (*vars)[id] = v;
+  }
 };
 
 struct Int64Node : Node {

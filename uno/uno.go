@@ -8,6 +8,7 @@ package eval
 import "C"
 
 import (
+	"fmt"
 	"unsafe"
 )
 
@@ -26,11 +27,13 @@ const (
 type Column struct {
 	Addr   int32
 	Column string
+	Type   DataType
 }
 
 type Columns struct {
 	addrs []int32
 	cols  []string
+	types []DataType
 }
 
 type Expression struct {
@@ -52,18 +55,88 @@ func NewEvaluator(code string) *Evaluator {
 		columns[cols.cols[i]] = Column{
 			Addr:   cols.addrs[i],
 			Column: cols.cols[i],
+			Type:   cols.types[i],
 		}
 	}
 	return &Evaluator{expression: expr, columns: columns}
 }
 
-func (e *Evaluator) Fill(col string, data interface{}, value []unsafe.Pointer) {
+func (e *Evaluator) FillInt64(col string, data int64, value []unsafe.Pointer) error {
 	column, ok := e.columns[col]
 	if !ok {
-		return
+		return fmt.Errorf("column %s not found", col)
 	}
 
-	checkFill(data, &column, value)
+	if column.Type == Int64 {
+		value[column.Addr] = unsafe.Pointer(&data)
+		return nil
+	}
+	return fmt.Errorf("column type check error: %d not found", column.Type)
+}
+
+func (e *Evaluator) FillInt64s(col string, data []int64, value []unsafe.Pointer) error {
+	column, ok := e.columns[col]
+	if !ok {
+		return fmt.Errorf("column %s not found", col)
+	}
+
+	if column.Type == Int64s {
+		value[column.Addr] = unsafe.Pointer(&data)
+		return nil
+	}
+	return fmt.Errorf("column type check error: %d not found", column.Type)
+}
+
+func (e *Evaluator) FillFloat32(col string, data float32, value []unsafe.Pointer) error {
+	column, ok := e.columns[col]
+	if !ok {
+		return fmt.Errorf("column %s not found", col)
+	}
+
+	if column.Type == Float32 {
+		value[column.Addr] = unsafe.Pointer(&data)
+		return nil
+	}
+	return fmt.Errorf("column type check error: %d not found", column.Type)
+}
+
+func (e *Evaluator) FillFloat32s(col string, data []float32, value []unsafe.Pointer) error {
+	column, ok := e.columns[col]
+	if !ok {
+		return fmt.Errorf("column %s not found", col)
+	}
+
+	if column.Type == Float32s {
+		value[column.Addr] = unsafe.Pointer(&data)
+		return nil
+	}
+	return fmt.Errorf("column type check error: %d not found", column.Type)
+}
+
+func (e *Evaluator) FillString(col string, data string, value []unsafe.Pointer) error {
+	column, ok := e.columns[col]
+	if !ok {
+		return fmt.Errorf("column %s not found", col)
+	}
+
+	if column.Type == String {
+		value[column.Addr] = unsafe.Pointer(&data)
+		return nil
+	}
+	return fmt.Errorf("column type check error: %d not found", column.Type)
+}
+
+func (e *Evaluator) FillStrings(col string, data []string, value []unsafe.Pointer) error {
+	column, ok := e.columns[col]
+	if !ok {
+		return fmt.Errorf("column %s not found", col)
+	}
+
+	if column.Type == Strings {
+		value[column.Addr] = unsafe.Pointer(&data)
+		return nil
+	}
+	return fmt.Errorf("column type check error: %d not found", column.Type)
 }
 
 func (e *Evaluator) Allocate() []unsafe.Pointer {
@@ -92,23 +165,4 @@ func (e *Evaluator) Clean(slice []unsafe.Pointer) {
 
 func (e *Evaluator) Release() {
 	C.uno_release_expression(unsafe.Pointer(e.expression))
-}
-
-func checkFill(data interface{}, col *Column, value []unsafe.Pointer) {
-	switch v := data.(type) {
-	case int64:
-		value[col.Addr] = unsafe.Pointer(&v)
-	case float32:
-		value[col.Addr] = unsafe.Pointer(&v)
-	case string:
-		value[col.Addr] = unsafe.Pointer(&v)
-	case []int64:
-		value[col.Addr] = unsafe.Pointer(&v)
-	case []float32:
-		value[col.Addr] = unsafe.Pointer(&v)
-	case []string:
-		value[col.Addr] = unsafe.Pointer(&v)
-	default:
-		return
-	}
 }

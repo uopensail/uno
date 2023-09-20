@@ -21,13 +21,15 @@ arithmetic_expression   : arithmetic_expression T_MOD arithmetic_expression     
                         | arithmetic_expression T_SUB arithmetic_expression                                 # SubArithmeticExpression
                         | IDENTIFIER '(' ')'                                                                # RuntTimeFuncArithmeticExpression
                         | IDENTIFIER '(' arithmetic_expression (',' arithmetic_expression)* ')'             # FuncArithmeticExpression
-                        | IDENTIFIER                                                                        # ColumnArithmeticExpression
-                        | IDENTIFIER '.' IDENTIFIER                                                         # FieldColumnArithmeticExpression
+                        | IDENTIFIER type_marker?                                                           # ColumnArithmeticExpression
+                        | IDENTIFIER '.' IDENTIFIER type_marker?                                            # FieldColumnArithmeticExpression
                         | STRING                                                                            # StringArithmeticExpression
                         | INTEGER                                                                           # IntegerArithmeticExpression
                         | DECIMAL                                                                           # DecimalArithmeticExpression
                         | '(' arithmetic_expression ')'                                                     # PlainArithmeticExpression
                         ;
+
+type_marker             : '[' (T_INT|T_FLOAT|T_STRING) ']' ;
 
 T_ADD                   : '+' ;
 T_SUB                   : '-' ;
@@ -36,6 +38,9 @@ T_DIV                   : '/' ;
 T_MOD                   : '%' ;
 
 // reserved keywords
+T_INT                   : I N T '6' '4' ;
+T_FLOAT                 : F L O A T '3' '2' ;
+T_STRING                : S T R I N G ;
 T_ON                    : O N ;
 T_AND                   : A N D ;
 T_OR                    : O R ;

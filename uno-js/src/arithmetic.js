@@ -299,8 +299,11 @@ export class Function extends ArithmeticExpression {
         assert(args instanceof Array, "Value must be an array");
         this.func = func;
         this.args = [];
+        let io = builtins.function_io_types[this.func];
+        assert(io !== undefined, `${func} not defined`);
         for (var i = 0; i < args.length; i++) {
             assert(args[i] instanceof ArithmeticExpression, "arg must be an arithmetic expression");
+            assert(args[i].GetDataType() === io["in"][i], `arg[${i}] type not matching`);
             this.args.push(args[i]);
         }
         this.id = -1;
@@ -311,24 +314,11 @@ export class Function extends ArithmeticExpression {
     }
 
     GetDataType() {
-        var floats = ["exp", "log", "log10", "log2", "sqrt", "sin", "cos", "abs", "asin", "acos", "atan",
-            "sinh", "cosh", "tanh", "tan", "asinh", "acosh", "atanh", "+", "-", "*", "/", "min", "max",
-            "sigmoid", "addf", "subf", "mulf", "divf", "minf"];
-
-        var ints = ["round", "floor", "ceil", "%", "date_diff", "unix_timestamp",
-            "addi", "subi", "muli", "divi", "mini", "mod"];
-
-        var strings = ["from_unixtime", "substr", "concat", "lower", "upper", "reverse",
-            "date_add", "date_sub", "year", "month", "day", "date", "hour", "minute", "second"]
-
-        if (floats.includes(this.func)) {
-            return types.DataType.kFloat32;
-        } else if (ints.includes(this.func)) {
-            return types.DataType.kInt64;
-        } else if (strings.includes(this.func)) {
-            return types.DataType.kString;
+        let io = builtins.function_io_types[this.func];
+        if (io === undefined) {
+            return types.DataType.kError;
         }
-        return types.DataType.kError;
+        return io["out"][0]
     }
 
     GetType() {
@@ -340,7 +330,7 @@ export class Function extends ArithmeticExpression {
             return false;
         }
         for (var i = 0; i < this.args.length; i++) {
-            if (!this.args[i].Simplify()) {
+            if (!this.args[i].Trivial()) {
                 return false;
             }
         }
@@ -388,7 +378,7 @@ export class Function extends ArithmeticExpression {
             assert(this.args.length === 3, "argument length must be equal to 3");
             return new String(builtins[this.func](this.args[0].value, this.args[1].value, this.args[2].value));
         }
-        throw new Error("Not implemented: " + this.func);
+        throw new Error(`${this.func} Not implemented`);
     }
 
     ToJson() {
@@ -415,10 +405,25 @@ export class Function extends ArithmeticExpression {
 }
 
 export class Column extends ArithmeticExpression {
-    constructor(value) {
+    constructor(value, dtype) {
         super();
         assert(typeof value === "string", "Value must be a string");
         this.value = value;
+        dtype = dtype.toLowerCase();
+        this.dtype = types.DataType.kError;
+        if (dtype === "[int64]") {
+            this.dtype = types.DataType.kInt64;
+        } else if (dtype === "[float32]") {
+            this.dtype = types.DataType.kFloat32;
+        } else if (dtype === "[string]") {
+            this.dtype = types.DataType.kString;
+        } else if (dtype === "[int64s]") {
+            this.dtype = types.DataType.kInt64s;
+        } else if (dtype === "[float32s]") {
+            this.dtype = types.DataType.kFloat32s;
+        } else if (dtype === "[strings]") {
+            this.dtype = types.DataType.kStrings;
+        }
         this.id = -1;
     }
 
@@ -427,7 +432,7 @@ export class Column extends ArithmeticExpression {
     }
 
     GetDataType() {
-        return types.DataType.kError;
+        return this.dtype;
     }
 
     GetType() {
@@ -447,6 +452,7 @@ export class Column extends ArithmeticExpression {
             "id": this.id,
             "ntype": types.NodeType.kVarNode,
             "value": this.value,
+            "dtype": this.dtype,
         }
     }
 

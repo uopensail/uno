@@ -26,6 +26,7 @@
 #include <stdexcept>
 #include <string>
 #include <time.h>
+#include <type_traits>
 #include <vector>
 
 #include "go.hpp"
@@ -65,7 +66,17 @@ float *_exp(float *x);
 float *_log10(float *x);
 float *_log2(float *x);
 float *_sqrt(float *x);
-float *_abs(float *x);
+
+template <typename T> T *_abs(T *x) {
+  T *ret = (T *)malloc(sizeof(T));
+  if ((*x) < 0) {
+    *ret = -(*x);
+  } else {
+    *ret = *x;
+  }
+  return ret;
+}
+
 float *_sin(float *x);
 float *_asin(float *x);
 float *_sinh(float *x);
@@ -101,6 +112,23 @@ template <typename T> T *max(Slice<T> *src) {
       *ret = (*src)[i];
     }
   }
+  return ret;
+}
+
+template <typename T0, typename T1> T0 *cast(T1 *value) {
+  if ((!std::is_same_v<T0, int64_t> && !std::is_same_v<T0, float>) ||
+      (!std::is_same_v<T1, int64_t> && !std::is_same_v<T1, float>)) {
+    throw std::runtime_error("type cast only supports int64_t and float");
+  }
+
+  if constexpr (std::is_same_v<T0, T1>) {
+    T0 *ret = (T0 *)malloc(sizeof(T0));
+    *ret = *value;
+    return ret;
+  }
+
+  T0 *ret = (T0 *)malloc(sizeof(T0));
+  *ret = static_cast<T0>(*value);
   return ret;
 }
 

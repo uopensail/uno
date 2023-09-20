@@ -1,16 +1,17 @@
 import {
     ParseTreeWalker,
-    CharStream,
     CommonTokenStream,
     ErrorListener,
+    InputStream,
 } from 'antlr4';
+
 import UnoListener from "./uno.js";
 import unoParser from "./unoParser.js";
 import unoLexer from "./unoLexer.js";
 
-export function UnoCheck(str) {
+export function Check(str) {
     try {
-        let chars = new CharStream(str);
+        let chars = new InputStream(str);
         let lexer = new unoLexer(chars);
         let tokens = new CommonTokenStream(lexer);
         let parser = new unoParser(tokens);
@@ -24,8 +25,8 @@ export function UnoCheck(str) {
 }
 
 
-export function UnoParse(str) {
-    let chars = new CharStream(str);
+export function Parse(str) {
+    let chars = new InputStream(str);
     let lexer = new unoLexer(chars);
     let tokens = new CommonTokenStream(lexer);
     let parser = new unoParser(tokens);

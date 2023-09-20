@@ -212,5 +212,14 @@ export default class unoListener extends antlr4.tree.ParseTreeListener {
 	}
 
 
+	// Enter a parse tree produced by unoParser#type_marker.
+	enterType_marker(ctx) {
+	}
+
+	// Exit a parse tree produced by unoParser#type_marker.
+	exitType_marker(ctx) {
+	}
+
+
 
 }

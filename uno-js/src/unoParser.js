@@ -2,35 +2,39 @@
 // jshint ignore: start
 import antlr4 from 'antlr4';
 import unoListener from './unoListener.js';
-const serializedATN = [4,1,33,94,2,0,7,0,2,1,7,1,2,2,7,2,1,0,1,0,1,0,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,3,1,32,8,1,1,1,1,1,1,1,1,1,1,1,1,1,5,1,40,8,1,10,1,12,1,43,9,
-1,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,5,2,54,8,2,10,2,12,2,57,9,2,1,2,1,
-2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,3,2,72,8,2,1,2,1,2,1,2,1,2,
-1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,5,2,89,8,2,10,2,12,2,92,9,2,
-1,2,0,2,2,4,3,0,2,4,0,1,3,0,27,27,29,29,31,31,111,0,6,1,0,0,0,2,31,1,0,0,
-0,4,71,1,0,0,0,6,7,3,2,1,0,7,8,5,0,0,1,8,1,1,0,0,0,9,10,6,1,-1,0,10,11,3,
-4,2,0,11,12,5,17,0,0,12,13,3,4,2,0,13,32,1,0,0,0,14,15,5,13,0,0,15,32,3,
-2,1,6,16,17,3,4,2,0,17,18,5,14,0,0,18,19,7,0,0,0,19,32,1,0,0,0,20,21,3,4,
-2,0,21,22,5,13,0,0,22,23,5,14,0,0,23,24,7,0,0,0,24,32,1,0,0,0,25,26,5,1,
-0,0,26,27,3,2,1,0,27,28,5,2,0,0,28,32,1,0,0,0,29,32,5,15,0,0,30,32,5,16,
-0,0,31,9,1,0,0,0,31,14,1,0,0,0,31,16,1,0,0,0,31,20,1,0,0,0,31,25,1,0,0,0,
-31,29,1,0,0,0,31,30,1,0,0,0,32,41,1,0,0,0,33,34,10,9,0,0,34,35,5,11,0,0,
-35,40,3,2,1,10,36,37,10,8,0,0,37,38,5,12,0,0,38,40,3,2,1,9,39,33,1,0,0,0,
-39,36,1,0,0,0,40,43,1,0,0,0,41,39,1,0,0,0,41,42,1,0,0,0,42,3,1,0,0,0,43,
-41,1,0,0,0,44,45,6,2,-1,0,45,46,5,26,0,0,46,47,5,1,0,0,47,72,5,2,0,0,48,
-49,5,26,0,0,49,50,5,1,0,0,50,55,3,4,2,0,51,52,5,3,0,0,52,54,3,4,2,0,53,51,
-1,0,0,0,54,57,1,0,0,0,55,53,1,0,0,0,55,56,1,0,0,0,56,58,1,0,0,0,57,55,1,
-0,0,0,58,59,5,2,0,0,59,72,1,0,0,0,60,72,5,26,0,0,61,62,5,26,0,0,62,63,5,
-4,0,0,63,72,5,26,0,0,64,72,5,32,0,0,65,72,5,28,0,0,66,72,5,30,0,0,67,68,
-5,1,0,0,68,69,3,4,2,0,69,70,5,2,0,0,70,72,1,0,0,0,71,44,1,0,0,0,71,48,1,
-0,0,0,71,60,1,0,0,0,71,61,1,0,0,0,71,64,1,0,0,0,71,65,1,0,0,0,71,66,1,0,
-0,0,71,67,1,0,0,0,72,90,1,0,0,0,73,74,10,13,0,0,74,75,5,9,0,0,75,89,3,4,
-2,14,76,77,10,12,0,0,77,78,5,7,0,0,78,89,3,4,2,13,79,80,10,11,0,0,80,81,
-5,8,0,0,81,89,3,4,2,12,82,83,10,10,0,0,83,84,5,5,0,0,84,89,3,4,2,11,85,86,
-10,9,0,0,86,87,5,6,0,0,87,89,3,4,2,10,88,73,1,0,0,0,88,76,1,0,0,0,88,79,
-1,0,0,0,88,82,1,0,0,0,88,85,1,0,0,0,89,92,1,0,0,0,90,88,1,0,0,0,90,91,1,
-0,0,0,91,5,1,0,0,0,92,90,1,0,0,0,7,31,39,41,55,71,88,90];
+const serializedATN = [4,1,38,106,2,0,7,0,2,1,7,1,2,2,7,2,2,3,7,3,1,0,1,
+0,1,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,3,1,34,8,1,1,1,1,1,1,1,1,1,1,1,1,1,5,1,42,8,1,10,1,
+12,1,45,9,1,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,5,2,56,8,2,10,2,12,2,59,
+9,2,1,2,1,2,1,2,1,2,3,2,65,8,2,1,2,1,2,1,2,1,2,3,2,71,8,2,1,2,1,2,1,2,1,
+2,1,2,1,2,1,2,3,2,80,8,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,1,2,
+1,2,1,2,1,2,5,2,97,8,2,10,2,12,2,100,9,2,1,3,1,3,1,3,1,3,1,3,0,2,2,4,4,0,
+2,4,6,0,2,3,0,32,32,34,34,36,36,1,0,12,14,124,0,8,1,0,0,0,2,33,1,0,0,0,4,
+79,1,0,0,0,6,101,1,0,0,0,8,9,3,2,1,0,9,10,5,0,0,1,10,1,1,0,0,0,11,12,6,1,
+-1,0,12,13,3,4,2,0,13,14,5,22,0,0,14,15,3,4,2,0,15,34,1,0,0,0,16,17,5,18,
+0,0,17,34,3,2,1,6,18,19,3,4,2,0,19,20,5,19,0,0,20,21,7,0,0,0,21,34,1,0,0,
+0,22,23,3,4,2,0,23,24,5,18,0,0,24,25,5,19,0,0,25,26,7,0,0,0,26,34,1,0,0,
+0,27,28,5,1,0,0,28,29,3,2,1,0,29,30,5,2,0,0,30,34,1,0,0,0,31,34,5,20,0,0,
+32,34,5,21,0,0,33,11,1,0,0,0,33,16,1,0,0,0,33,18,1,0,0,0,33,22,1,0,0,0,33,
+27,1,0,0,0,33,31,1,0,0,0,33,32,1,0,0,0,34,43,1,0,0,0,35,36,10,9,0,0,36,37,
+5,16,0,0,37,42,3,2,1,10,38,39,10,8,0,0,39,40,5,17,0,0,40,42,3,2,1,9,41,35,
+1,0,0,0,41,38,1,0,0,0,42,45,1,0,0,0,43,41,1,0,0,0,43,44,1,0,0,0,44,3,1,0,
+0,0,45,43,1,0,0,0,46,47,6,2,-1,0,47,48,5,31,0,0,48,49,5,1,0,0,49,80,5,2,
+0,0,50,51,5,31,0,0,51,52,5,1,0,0,52,57,3,4,2,0,53,54,5,3,0,0,54,56,3,4,2,
+0,55,53,1,0,0,0,56,59,1,0,0,0,57,55,1,0,0,0,57,58,1,0,0,0,58,60,1,0,0,0,
+59,57,1,0,0,0,60,61,5,2,0,0,61,80,1,0,0,0,62,64,5,31,0,0,63,65,3,6,3,0,64,
+63,1,0,0,0,64,65,1,0,0,0,65,80,1,0,0,0,66,67,5,31,0,0,67,68,5,4,0,0,68,70,
+5,31,0,0,69,71,3,6,3,0,70,69,1,0,0,0,70,71,1,0,0,0,71,80,1,0,0,0,72,80,5,
+37,0,0,73,80,5,33,0,0,74,80,5,35,0,0,75,76,5,1,0,0,76,77,3,4,2,0,77,78,5,
+2,0,0,78,80,1,0,0,0,79,46,1,0,0,0,79,50,1,0,0,0,79,62,1,0,0,0,79,66,1,0,
+0,0,79,72,1,0,0,0,79,73,1,0,0,0,79,74,1,0,0,0,79,75,1,0,0,0,80,98,1,0,0,
+0,81,82,10,13,0,0,82,83,5,11,0,0,83,97,3,4,2,14,84,85,10,12,0,0,85,86,5,
+9,0,0,86,97,3,4,2,13,87,88,10,11,0,0,88,89,5,10,0,0,89,97,3,4,2,12,90,91,
+10,10,0,0,91,92,5,7,0,0,92,97,3,4,2,11,93,94,10,9,0,0,94,95,5,8,0,0,95,97,
+3,4,2,10,96,81,1,0,0,0,96,84,1,0,0,0,96,87,1,0,0,0,96,90,1,0,0,0,96,93,1,
+0,0,0,97,100,1,0,0,0,98,96,1,0,0,0,98,99,1,0,0,0,99,5,1,0,0,0,100,98,1,0,
+0,0,101,102,5,5,0,0,102,103,7,1,0,0,103,104,5,6,0,0,104,7,1,0,0,0,9,33,41,
+43,57,64,70,79,96,98];
 
 
 const atn = new antlr4.atn.ATNDeserializer().deserialize(serializedATN);
@@ -42,19 +46,21 @@ const sharedContextCache = new antlr4.atn.PredictionContextCache();
 export default class unoParser extends antlr4.Parser {
 
     static grammarFileName = "uno.g4";
-    static literalNames = [ null, "'('", "')'", "','", "'.'", "'+'", "'-'", 
-                            "'*'", "'/'", "'%'", null, null, null, null, 
-                            null, null, null, null, "'='", "'=='", "'<>'", 
-                            "'!='", "'>'", "'>='", "'<'", "'<='" ];
-    static symbolicNames = [ null, null, null, null, null, "T_ADD", "T_SUB", 
-                             "T_MUL", "T_DIV", "T_MOD", "T_ON", "T_AND", 
-                             "T_OR", "T_NOT", "T_IN", "T_TRUE", "T_FALSE", 
-                             "T_COMPARE", "T_EQUAL", "T_EQUAL2", "T_NOTEQUAL", 
-                             "T_NOTEQUAL2", "T_GREATER", "T_GREATEREQUAL", 
-                             "T_LESS", "T_LESSEQUAL", "IDENTIFIER", "INTEGER_LIST", 
-                             "INTEGER", "DECIMAL_LIST", "DECIMAL", "STRING_LIST", 
-                             "STRING", "WS" ];
-    static ruleNames = [ "start", "boolean_expression", "arithmetic_expression" ];
+    static literalNames = [ null, "'('", "')'", "','", "'.'", "'['", "']'", 
+                            "'+'", "'-'", "'*'", "'/'", "'%'", null, null, 
+                            null, null, null, null, null, null, null, null, 
+                            null, "'='", "'=='", "'<>'", "'!='", "'>'", 
+                            "'>='", "'<'", "'<='" ];
+    static symbolicNames = [ null, null, null, null, null, null, null, "T_ADD", 
+                             "T_SUB", "T_MUL", "T_DIV", "T_MOD", "T_INT", 
+                             "T_FLOAT", "T_STRING", "T_ON", "T_AND", "T_OR", 
+                             "T_NOT", "T_IN", "T_TRUE", "T_FALSE", "T_COMPARE", 
+                             "T_EQUAL", "T_EQUAL2", "T_NOTEQUAL", "T_NOTEQUAL2", 
+                             "T_GREATER", "T_GREATEREQUAL", "T_LESS", "T_LESSEQUAL", 
+                             "IDENTIFIER", "INTEGER_LIST", "INTEGER", "DECIMAL_LIST", 
+                             "DECIMAL", "STRING_LIST", "STRING", "WS" ];
+    static ruleNames = [ "start", "boolean_expression", "arithmetic_expression", 
+                         "type_marker" ];
 
     constructor(input) {
         super(input);
@@ -111,9 +117,9 @@ export default class unoParser extends antlr4.Parser {
 	    this.enterRule(localctx, 0, unoParser.RULE_start);
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 6;
+	        this.state = 8;
 	        this.boolean_expression(0);
-	        this.state = 7;
+	        this.state = 9;
 	        this.match(unoParser.EOF);
 	    } catch (re) {
 	    	if(re instanceof antlr4.error.RecognitionException) {
@@ -143,7 +149,7 @@ export default class unoParser extends antlr4.Parser {
 	    var _la = 0;
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 31;
+	        this.state = 33;
 	        this._errHandler.sync(this);
 	        var la_ = this._interp.adaptivePredict(this._input,0,this._ctx);
 	        switch(la_) {
@@ -152,11 +158,11 @@ export default class unoParser extends antlr4.Parser {
 	            this._ctx = localctx;
 	            _prevctx = localctx;
 
-	            this.state = 10;
-	            this.arithmetic_expression(0);
-	            this.state = 11;
-	            this.match(unoParser.T_COMPARE);
 	            this.state = 12;
+	            this.arithmetic_expression(0);
+	            this.state = 13;
+	            this.match(unoParser.T_COMPARE);
+	            this.state = 14;
 	            this.arithmetic_expression(0);
 	            break;
 
@@ -164,9 +170,9 @@ export default class unoParser extends antlr4.Parser {
 	            localctx = new NotBooleanExpressionContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
-	            this.state = 14;
+	            this.state = 16;
 	            this.match(unoParser.T_NOT);
-	            this.state = 15;
+	            this.state = 17;
 	            this.boolean_expression(6);
 	            break;
 
@@ -174,13 +180,13 @@ export default class unoParser extends antlr4.Parser {
 	            localctx = new InBooleanExpressionContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
-	            this.state = 16;
-	            this.arithmetic_expression(0);
-	            this.state = 17;
-	            this.match(unoParser.T_IN);
 	            this.state = 18;
+	            this.arithmetic_expression(0);
+	            this.state = 19;
+	            this.match(unoParser.T_IN);
+	            this.state = 20;
 	            _la = this._input.LA(1);
-	            if(!((((_la) & ~0x1f) === 0 && ((1 << _la) & 2818572288) !== 0))) {
+	            if(!(((((_la - 32)) & ~0x1f) === 0 && ((1 << (_la - 32)) & 21) !== 0))) {
 	            this._errHandler.recoverInline(this);
 	            }
 	            else {
@@ -193,15 +199,15 @@ export default class unoParser extends antlr4.Parser {
 	            localctx = new NotInBooleanExpressionContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
-	            this.state = 20;
-	            this.arithmetic_expression(0);
-	            this.state = 21;
-	            this.match(unoParser.T_NOT);
 	            this.state = 22;
-	            this.match(unoParser.T_IN);
+	            this.arithmetic_expression(0);
 	            this.state = 23;
+	            this.match(unoParser.T_NOT);
+	            this.state = 24;
+	            this.match(unoParser.T_IN);
+	            this.state = 25;
 	            _la = this._input.LA(1);
-	            if(!((((_la) & ~0x1f) === 0 && ((1 << _la) & 2818572288) !== 0))) {
+	            if(!(((((_la - 32)) & ~0x1f) === 0 && ((1 << (_la - 32)) & 21) !== 0))) {
 	            this._errHandler.recoverInline(this);
 	            }
 	            else {
@@ -214,11 +220,11 @@ export default class unoParser extends antlr4.Parser {
 	            localctx = new PlainBooleanExpressionContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
-	            this.state = 25;
-	            this.match(unoParser.T__0);
-	            this.state = 26;
-	            this.boolean_expression(0);
 	            this.state = 27;
+	            this.match(unoParser.T__0);
+	            this.state = 28;
+	            this.boolean_expression(0);
+	            this.state = 29;
 	            this.match(unoParser.T__1);
 	            break;
 
@@ -226,7 +232,7 @@ export default class unoParser extends antlr4.Parser {
 	            localctx = new TrueBooleanExpressionContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
-	            this.state = 29;
+	            this.state = 31;
 	            this.match(unoParser.T_TRUE);
 	            break;
 
@@ -234,13 +240,13 @@ export default class unoParser extends antlr4.Parser {
 	            localctx = new FalseBooleanExpressionContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
-	            this.state = 30;
+	            this.state = 32;
 	            this.match(unoParser.T_FALSE);
 	            break;
 
 	        }
 	        this._ctx.stop = this._input.LT(-1);
-	        this.state = 41;
+	        this.state = 43;
 	        this._errHandler.sync(this);
 	        var _alt = this._interp.adaptivePredict(this._input,2,this._ctx)
 	        while(_alt!=2 && _alt!=antlr4.atn.ATN.INVALID_ALT_NUMBER) {
@@ -249,39 +255,39 @@ export default class unoParser extends antlr4.Parser {
 	                    this.triggerExitRuleEvent();
 	                }
 	                _prevctx = localctx;
-	                this.state = 39;
+	                this.state = 41;
 	                this._errHandler.sync(this);
 	                var la_ = this._interp.adaptivePredict(this._input,1,this._ctx);
 	                switch(la_) {
 	                case 1:
 	                    localctx = new AndBooleanExpressionContext(this, new Boolean_expressionContext(this, _parentctx, _parentState));
 	                    this.pushNewRecursionContext(localctx, _startState, unoParser.RULE_boolean_expression);
-	                    this.state = 33;
+	                    this.state = 35;
 	                    if (!( this.precpred(this._ctx, 9))) {
 	                        throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 9)");
 	                    }
-	                    this.state = 34;
+	                    this.state = 36;
 	                    this.match(unoParser.T_AND);
-	                    this.state = 35;
+	                    this.state = 37;
 	                    this.boolean_expression(10);
 	                    break;
 
 	                case 2:
 	                    localctx = new OrBooleanExpressionContext(this, new Boolean_expressionContext(this, _parentctx, _parentState));
 	                    this.pushNewRecursionContext(localctx, _startState, unoParser.RULE_boolean_expression);
-	                    this.state = 36;
+	                    this.state = 38;
 	                    if (!( this.precpred(this._ctx, 8))) {
 	                        throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 8)");
 	                    }
-	                    this.state = 37;
+	                    this.state = 39;
 	                    this.match(unoParser.T_OR);
-	                    this.state = 38;
+	                    this.state = 40;
 	                    this.boolean_expression(9);
 	                    break;
 
 	                } 
 	            }
-	            this.state = 43;
+	            this.state = 45;
 	            this._errHandler.sync(this);
 	            _alt = this._interp.adaptivePredict(this._input,2,this._ctx);
 	        }
@@ -314,20 +320,20 @@ export default class unoParser extends antlr4.Parser {
 	    var _la = 0;
 	    try {
 	        this.enterOuterAlt(localctx, 1);
-	        this.state = 71;
+	        this.state = 79;
 	        this._errHandler.sync(this);
-	        var la_ = this._interp.adaptivePredict(this._input,4,this._ctx);
+	        var la_ = this._interp.adaptivePredict(this._input,6,this._ctx);
 	        switch(la_) {
 	        case 1:
 	            localctx = new RuntTimeFuncArithmeticExpressionContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
 
-	            this.state = 45;
-	            this.match(unoParser.IDENTIFIER);
-	            this.state = 46;
-	            this.match(unoParser.T__0);
 	            this.state = 47;
+	            this.match(unoParser.IDENTIFIER);
+	            this.state = 48;
+	            this.match(unoParser.T__0);
+	            this.state = 49;
 	            this.match(unoParser.T__1);
 	            break;
 
@@ -335,25 +341,25 @@ export default class unoParser extends antlr4.Parser {
 	            localctx = new FuncArithmeticExpressionContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
-	            this.state = 48;
-	            this.match(unoParser.IDENTIFIER);
-	            this.state = 49;
-	            this.match(unoParser.T__0);
 	            this.state = 50;
+	            this.match(unoParser.IDENTIFIER);
+	            this.state = 51;
+	            this.match(unoParser.T__0);
+	            this.state = 52;
 	            this.arithmetic_expression(0);
-	            this.state = 55;
+	            this.state = 57;
 	            this._errHandler.sync(this);
 	            _la = this._input.LA(1);
 	            while(_la===3) {
-	                this.state = 51;
+	                this.state = 53;
 	                this.match(unoParser.T__2);
-	                this.state = 52;
+	                this.state = 54;
 	                this.arithmetic_expression(0);
-	                this.state = 57;
+	                this.state = 59;
 	                this._errHandler.sync(this);
 	                _la = this._input.LA(1);
 	            }
-	            this.state = 58;
+	            this.state = 60;
 	            this.match(unoParser.T__1);
 	            break;
 
@@ -361,27 +367,43 @@ export default class unoParser extends antlr4.Parser {
 	            localctx = new ColumnArithmeticExpressionContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
-	            this.state = 60;
+	            this.state = 62;
 	            this.match(unoParser.IDENTIFIER);
+	            this.state = 64;
+	            this._errHandler.sync(this);
+	            var la_ = this._interp.adaptivePredict(this._input,4,this._ctx);
+	            if(la_===1) {
+	                this.state = 63;
+	                this.type_marker();
+
+	            }
 	            break;
 
 	        case 4:
 	            localctx = new FieldColumnArithmeticExpressionContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
-	            this.state = 61;
+	            this.state = 66;
 	            this.match(unoParser.IDENTIFIER);
-	            this.state = 62;
+	            this.state = 67;
 	            this.match(unoParser.T__3);
-	            this.state = 63;
+	            this.state = 68;
 	            this.match(unoParser.IDENTIFIER);
+	            this.state = 70;
+	            this._errHandler.sync(this);
+	            var la_ = this._interp.adaptivePredict(this._input,5,this._ctx);
+	            if(la_===1) {
+	                this.state = 69;
+	                this.type_marker();
+
+	            }
 	            break;
 
 	        case 5:
 	            localctx = new StringArithmeticExpressionContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
-	            this.state = 64;
+	            this.state = 72;
 	            this.match(unoParser.STRING);
 	            break;
 
@@ -389,7 +411,7 @@ export default class unoParser extends antlr4.Parser {
 	            localctx = new IntegerArithmeticExpressionContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
-	            this.state = 65;
+	            this.state = 73;
 	            this.match(unoParser.INTEGER);
 	            break;
 
@@ -397,7 +419,7 @@ export default class unoParser extends antlr4.Parser {
 	            localctx = new DecimalArithmeticExpressionContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
-	            this.state = 66;
+	            this.state = 74;
 	            this.match(unoParser.DECIMAL);
 	            break;
 
@@ -405,99 +427,99 @@ export default class unoParser extends antlr4.Parser {
 	            localctx = new PlainArithmeticExpressionContext(this, localctx);
 	            this._ctx = localctx;
 	            _prevctx = localctx;
-	            this.state = 67;
+	            this.state = 75;
 	            this.match(unoParser.T__0);
-	            this.state = 68;
+	            this.state = 76;
 	            this.arithmetic_expression(0);
-	            this.state = 69;
+	            this.state = 77;
 	            this.match(unoParser.T__1);
 	            break;
 
 	        }
 	        this._ctx.stop = this._input.LT(-1);
-	        this.state = 90;
+	        this.state = 98;
 	        this._errHandler.sync(this);
-	        var _alt = this._interp.adaptivePredict(this._input,6,this._ctx)
+	        var _alt = this._interp.adaptivePredict(this._input,8,this._ctx)
 	        while(_alt!=2 && _alt!=antlr4.atn.ATN.INVALID_ALT_NUMBER) {
 	            if(_alt===1) {
 	                if(this._parseListeners!==null) {
 	                    this.triggerExitRuleEvent();
 	                }
 	                _prevctx = localctx;
-	                this.state = 88;
+	                this.state = 96;
 	                this._errHandler.sync(this);
-	                var la_ = this._interp.adaptivePredict(this._input,5,this._ctx);
+	                var la_ = this._interp.adaptivePredict(this._input,7,this._ctx);
 	                switch(la_) {
 	                case 1:
 	                    localctx = new ModArithmeticExpressionContext(this, new Arithmetic_expressionContext(this, _parentctx, _parentState));
 	                    this.pushNewRecursionContext(localctx, _startState, unoParser.RULE_arithmetic_expression);
-	                    this.state = 73;
+	                    this.state = 81;
 	                    if (!( this.precpred(this._ctx, 13))) {
 	                        throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 13)");
 	                    }
-	                    this.state = 74;
+	                    this.state = 82;
 	                    this.match(unoParser.T_MOD);
-	                    this.state = 75;
+	                    this.state = 83;
 	                    this.arithmetic_expression(14);
 	                    break;
 
 	                case 2:
 	                    localctx = new MulArithmeticExpressionContext(this, new Arithmetic_expressionContext(this, _parentctx, _parentState));
 	                    this.pushNewRecursionContext(localctx, _startState, unoParser.RULE_arithmetic_expression);
-	                    this.state = 76;
+	                    this.state = 84;
 	                    if (!( this.precpred(this._ctx, 12))) {
 	                        throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 12)");
 	                    }
-	                    this.state = 77;
+	                    this.state = 85;
 	                    this.match(unoParser.T_MUL);
-	                    this.state = 78;
+	                    this.state = 86;
 	                    this.arithmetic_expression(13);
 	                    break;
 
 	                case 3:
 	                    localctx = new DivArithmeticExpressionContext(this, new Arithmetic_expressionContext(this, _parentctx, _parentState));
 	                    this.pushNewRecursionContext(localctx, _startState, unoParser.RULE_arithmetic_expression);
-	                    this.state = 79;
+	                    this.state = 87;
 	                    if (!( this.precpred(this._ctx, 11))) {
 	                        throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 11)");
 	                    }
-	                    this.state = 80;
+	                    this.state = 88;
 	                    this.match(unoParser.T_DIV);
-	                    this.state = 81;
+	                    this.state = 89;
 	                    this.arithmetic_expression(12);
 	                    break;
 
 	                case 4:
 	                    localctx = new AddArithmeticExpressionContext(this, new Arithmetic_expressionContext(this, _parentctx, _parentState));
 	                    this.pushNewRecursionContext(localctx, _startState, unoParser.RULE_arithmetic_expression);
-	                    this.state = 82;
+	                    this.state = 90;
 	                    if (!( this.precpred(this._ctx, 10))) {
 	                        throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 10)");
 	                    }
-	                    this.state = 83;
+	                    this.state = 91;
 	                    this.match(unoParser.T_ADD);
-	                    this.state = 84;
+	                    this.state = 92;
 	                    this.arithmetic_expression(11);
 	                    break;
 
 	                case 5:
 	                    localctx = new SubArithmeticExpressionContext(this, new Arithmetic_expressionContext(this, _parentctx, _parentState));
 	                    this.pushNewRecursionContext(localctx, _startState, unoParser.RULE_arithmetic_expression);
-	                    this.state = 85;
+	                    this.state = 93;
 	                    if (!( this.precpred(this._ctx, 9))) {
 	                        throw new antlr4.error.FailedPredicateException(this, "this.precpred(this._ctx, 9)");
 	                    }
-	                    this.state = 86;
+	                    this.state = 94;
 	                    this.match(unoParser.T_SUB);
-	                    this.state = 87;
+	                    this.state = 95;
 	                    this.arithmetic_expression(10);
 	                    break;
 
 	                } 
 	            }
-	            this.state = 92;
+	            this.state = 100;
 	            this._errHandler.sync(this);
-	            _alt = this._interp.adaptivePredict(this._input,6,this._ctx);
+	            _alt = this._interp.adaptivePredict(this._input,8,this._ctx);
 	        }
 
 	    } catch( error) {
@@ -515,6 +537,41 @@ export default class unoParser extends antlr4.Parser {
 	}
 
 
+
+	type_marker() {
+	    let localctx = new Type_markerContext(this, this._ctx, this.state);
+	    this.enterRule(localctx, 6, unoParser.RULE_type_marker);
+	    var _la = 0;
+	    try {
+	        this.enterOuterAlt(localctx, 1);
+	        this.state = 101;
+	        this.match(unoParser.T__4);
+	        this.state = 102;
+	        _la = this._input.LA(1);
+	        if(!((((_la) & ~0x1f) === 0 && ((1 << _la) & 28672) !== 0))) {
+	        this._errHandler.recoverInline(this);
+	        }
+	        else {
+	        	this._errHandler.reportMatch(this);
+	            this.consume();
+	        }
+	        this.state = 103;
+	        this.match(unoParser.T__5);
+	    } catch (re) {
+	    	if(re instanceof antlr4.error.RecognitionException) {
+		        localctx.exception = re;
+		        this._errHandler.reportError(this, re);
+		        this._errHandler.recover(this, re);
+		    } else {
+		    	throw re;
+		    }
+	    } finally {
+	        this.exitRule();
+	    }
+	    return localctx;
+	}
+
+
 }
 
 unoParser.EOF = antlr4.Token.EOF;
@@ -522,39 +579,45 @@ unoParser.T__0 = 1;
 unoParser.T__1 = 2;
 unoParser.T__2 = 3;
 unoParser.T__3 = 4;
-unoParser.T_ADD = 5;
-unoParser.T_SUB = 6;
-unoParser.T_MUL = 7;
-unoParser.T_DIV = 8;
-unoParser.T_MOD = 9;
-unoParser.T_ON = 10;
-unoParser.T_AND = 11;
-unoParser.T_OR = 12;
-unoParser.T_NOT = 13;
-unoParser.T_IN = 14;
-unoParser.T_TRUE = 15;
-unoParser.T_FALSE = 16;
-unoParser.T_COMPARE = 17;
-unoParser.T_EQUAL = 18;
-unoParser.T_EQUAL2 = 19;
-unoParser.T_NOTEQUAL = 20;
-unoParser.T_NOTEQUAL2 = 21;
-unoParser.T_GREATER = 22;
-unoParser.T_GREATEREQUAL = 23;
-unoParser.T_LESS = 24;
-unoParser.T_LESSEQUAL = 25;
-unoParser.IDENTIFIER = 26;
-unoParser.INTEGER_LIST = 27;
-unoParser.INTEGER = 28;
-unoParser.DECIMAL_LIST = 29;
-unoParser.DECIMAL = 30;
-unoParser.STRING_LIST = 31;
-unoParser.STRING = 32;
-unoParser.WS = 33;
+unoParser.T__4 = 5;
+unoParser.T__5 = 6;
+unoParser.T_ADD = 7;
+unoParser.T_SUB = 8;
+unoParser.T_MUL = 9;
+unoParser.T_DIV = 10;
+unoParser.T_MOD = 11;
+unoParser.T_INT = 12;
+unoParser.T_FLOAT = 13;
+unoParser.T_STRING = 14;
+unoParser.T_ON = 15;
+unoParser.T_AND = 16;
+unoParser.T_OR = 17;
+unoParser.T_NOT = 18;
+unoParser.T_IN = 19;
+unoParser.T_TRUE = 20;
+unoParser.T_FALSE = 21;
+unoParser.T_COMPARE = 22;
+unoParser.T_EQUAL = 23;
+unoParser.T_EQUAL2 = 24;
+unoParser.T_NOTEQUAL = 25;
+unoParser.T_NOTEQUAL2 = 26;
+unoParser.T_GREATER = 27;
+unoParser.T_GREATEREQUAL = 28;
+unoParser.T_LESS = 29;
+unoParser.T_LESSEQUAL = 30;
+unoParser.IDENTIFIER = 31;
+unoParser.INTEGER_LIST = 32;
+unoParser.INTEGER = 33;
+unoParser.DECIMAL_LIST = 34;
+unoParser.DECIMAL = 35;
+unoParser.STRING_LIST = 36;
+unoParser.STRING = 37;
+unoParser.WS = 38;
 
 unoParser.RULE_start = 0;
 unoParser.RULE_boolean_expression = 1;
 unoParser.RULE_arithmetic_expression = 2;
+unoParser.RULE_type_marker = 3;
 
 class StartContext extends antlr4.ParserRuleContext {
 
@@ -1167,6 +1230,10 @@ class ColumnArithmeticExpressionContext extends Arithmetic_expressionContext {
 	    return this.getToken(unoParser.IDENTIFIER, 0);
 	};
 
+	type_marker() {
+	    return this.getTypedRuleContext(Type_markerContext,0);
+	};
+
 	enterRule(listener) {
 	    if(listener instanceof unoListener ) {
 	        listener.enterColumnArithmeticExpression(this);
@@ -1241,6 +1308,10 @@ class FieldColumnArithmeticExpressionContext extends Arithmetic_expressionContex
 	    }
 	};
 
+
+	type_marker() {
+	    return this.getTypedRuleContext(Type_markerContext,0);
+	};
 
 	enterRule(listener) {
 	    if(listener instanceof unoListener ) {
@@ -1404,7 +1475,51 @@ class MulArithmeticExpressionContext extends Arithmetic_expressionContext {
 
 unoParser.MulArithmeticExpressionContext = MulArithmeticExpressionContext;
 
+class Type_markerContext extends antlr4.ParserRuleContext {
+
+    constructor(parser, parent, invokingState) {
+        if(parent===undefined) {
+            parent = null;
+        }
+        if(invokingState===undefined || invokingState===null) {
+            invokingState = -1;
+        }
+        super(parent, invokingState);
+        this.parser = parser;
+        this.ruleIndex = unoParser.RULE_type_marker;
+    }
+
+	T_INT() {
+	    return this.getToken(unoParser.T_INT, 0);
+	};
+
+	T_FLOAT() {
+	    return this.getToken(unoParser.T_FLOAT, 0);
+	};
+
+	T_STRING() {
+	    return this.getToken(unoParser.T_STRING, 0);
+	};
+
+	enterRule(listener) {
+	    if(listener instanceof unoListener ) {
+	        listener.enterType_marker(this);
+		}
+	}
+
+	exitRule(listener) {
+	    if(listener instanceof unoListener ) {
+	        listener.exitType_marker(this);
+		}
+	}
+
+
+}
+
+
+
 
 unoParser.StartContext = StartContext; 
 unoParser.Boolean_expressionContext = Boolean_expressionContext; 
 unoParser.Arithmetic_expressionContext = Arithmetic_expressionContext; 
+unoParser.Type_markerContext = Type_markerContext; 

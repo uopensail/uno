@@ -243,6 +243,18 @@ export class Cmp extends BooleanExpression {
         } else if (op === "!===") {
             this.cmp = types.CmpType.kNotEqual;
         }
+
+        let left_type = this.left.GetDataType();
+        let right_type = this.right.GetDataType();
+        if (this.op === "in" || this.op === "not in") {
+            assert((left_type === types.DataType.kInt64 && right_type === types.DataType.kInt64s)
+                || (left_type === types.DataType.kFloat32 && right_type === types.DataType.kFloat32s)
+                || (left_type === types.DataType.kString && right_type === types.DataType.kStrings),
+                "left and right types not match");
+        } else {
+            assert(left_type === right_type, "left and right types not match");
+        }
+        this.dtype = left_type;
     }
 
     GetId() {
@@ -268,27 +280,7 @@ export class Cmp extends BooleanExpression {
     }
 
     GetDataType() {
-        if (this.op === "in" || this.opop === "not in") {
-            if (this.right instanceof arithmetic.Float32s) {
-                return types.DataType.kFloat32;
-            } else if (this.right instanceof arithmetic.Int64s) {
-                return types.DataType.kInt64;
-            } else if (this.right instanceof arithmetic.Strings) {
-                return types.DataType.kString;
-            }
-            return types.DataType.kFloat32;
-        }
-        let left = this.left.GetDataType();
-        let right = this.right.GetDataType();
-        if (left === types.DataType.kFloat32 || right === types.DataType.kFloat32) {
-            return types.DataType.kFloat32;
-        } else if (left === types.DataType.kString || right === types.DataType.kString) {
-            return types.DataType.kString;
-        } else if (left === types.DataType.kInt64 || right === types.DataType.kInt64) {
-            return types.DataType.kInt64;
-        }
-        // default is float type
-        return types.DataType.kFloat32;
+        return this.dtype;
     }
 
     ToJson() {

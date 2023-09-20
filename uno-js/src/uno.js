@@ -203,16 +203,17 @@ export default class UnoListener extends unoListener {
 		let name = "exitFuncArithmeticExpressionBuilder";
 		return function (ctx) {
 			let func = ctx.IDENTIFIER().getText().toLowerCase();
-			let n = ctx.arithmetic_expression_list().length;
-			let argvs = new Array < arithmetic.ArithmeticExpression > (n);
+			let n = ctx.arithmetic_expression().length;
+			let args = [];
 			for (let i = 0; i < n; i++) {
 				const tmp = _this.arithmetics.pop();
 				if (tmp === undefined) {
 					throw new Error(`${name} : Arithmetic Expression Is Undefined`);
 				}
-				argvs[n - 1 - i] = tmp;
+				args.push(tmp);
 			}
-			let tmp = new arithmetic.Function(func, argvs);
+			args.reverse();
+			let tmp = new arithmetic.Function(func, args);
 			_this.arithmetics.push(tmp.Simplify());
 		};
 	}
@@ -224,7 +225,11 @@ export default class UnoListener extends unoListener {
 		let _this = this;
 
 		return function (ctx) {
-			let tmp = new arithmetic.Column(ctx.IDENTIFIER().getText());
+			let mark = ctx.type_marker().getText();
+			if (mark === "") {
+				mark = "[float32]"
+			}
+			let tmp = new arithmetic.Column(ctx.IDENTIFIER().getText(), mark);
 			_this.arithmetics.push(tmp);
 		};
 	}
@@ -257,8 +262,12 @@ export default class UnoListener extends unoListener {
 		let name = "exitFieldColumnArithmeticExpressionBuilder";
 
 		return function (ctx) {
+			let mark = ctx.type_marker().getText();
+			if (mark === "") {
+				mark = "[float32]"
+			}
 			let column = `${ctx.IDENTIFIER(0).getText()}.${ctx.IDENTIFIER(1).getText()}`;
-			let tmp = new arithmetic.Column(column);
+			let tmp = new arithmetic.Column(column, mark);
 			_this.arithmetics.push(tmp);
 		};
 	}

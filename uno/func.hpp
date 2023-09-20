@@ -84,6 +84,11 @@ Call get_func_call(T0 *(*f)(ArgsType *...)) {
 }
 
 const std::map<std::string, Call> builtin_functions = {
+    {"+", get_func_call(_add<float>)},
+    {"-", get_func_call(_sub<float>)},
+    {"*", get_func_call(_mul<float>)},
+    {"/", get_func_call(_div<float>)},
+    {"%", get_func_call(_mod)},
     {"addi", get_func_call(_add<int64_t>)},
     {"addf", get_func_call(_add<float>)},
     {"subi", get_func_call(_sub<int64_t>)},
@@ -102,7 +107,9 @@ const std::map<std::string, Call> builtin_functions = {
     {"log10", get_func_call(_log10)},
     {"log2", get_func_call(_log2)},
     {"sqrt", get_func_call(_sqrt)},
-    {"abs", get_func_call(_abs)},
+    {"abs", get_func_call(_abs<float>)},
+    {"absi", get_func_call(_abs<int64_t>)},
+    {"absf", get_func_call(_abs<float>)},
     {"sin", get_func_call(_sin)},
     {"asin", get_func_call(_asin)},
     {"sinh", get_func_call(_sinh)},
@@ -116,8 +123,10 @@ const std::map<std::string, Call> builtin_functions = {
     {"tanh", get_func_call(_tanh)},
     {"atanh", get_func_call(_atanh)},
     {"sigmoid", get_func_call(_sigmoid)},
+    {"min", get_func_call(min<float>)},
     {"mini", get_func_call(min<int64_t>)},
     {"minf", get_func_call(min<float>)},
+    {"max", get_func_call(max<float>)},
     {"maxi", get_func_call(max<int64_t>)},
     {"maxf", get_func_call(max<float>)},
     {"year", get_func_call(year)},
@@ -135,9 +144,10 @@ const std::map<std::string, Call> builtin_functions = {
     {"date_diff", get_func_call(date_diff)},
     {"reverse", get_func_call(reverse)},
     {"upper", get_func_call(upper)},
-    {"upper", get_func_call(upper)},
-    {"upper", get_func_call(upper)},
     {"lower", get_func_call(lower)},
     {"concat", get_func_call(concat)},
+    {"castf2i", get_func_call(cast<int64_t, float>)},
+    {"casti2f", get_func_call(cast<float, int64_t>)},
 };
+
 #endif // UNO_FUNC_HPP
